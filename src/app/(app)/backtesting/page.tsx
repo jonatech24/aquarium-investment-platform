@@ -31,68 +31,24 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { CandlestickChart } from '@/components/candlestick-chart';
 
 const strategies = [
-  {
-    id: 'gapandgo',
-    name: 'Gap and Go',
-  },
-  {
-    id: 'trendfollowing',
-    name: 'Trend Following',
-  },
-  {
-    id: 'meanreversion',
-    name: 'Mean Reversion',
-  },
-  {
-    id: 'momentum',
-    name: 'Momentum Trading',
-  },
-  {
-    id: 'arbitrage',
-    name: 'Arbitrage',
-  },
-  {
-    id: 'statisticalarbitrage',
-    name: 'Statistical Arbitrage',
-  },
-  {
-    id: 'marketmaking',
-    name: 'Market Making',
-  },
-  {
-    id: 'vwap',
-    name: 'VWAP',
-  },
-  {
-    id: 'twap',
-    name: 'TWAP',
-  },
-  {
-    id: 'pov',
-    name: 'POV',
-  },
-  {
-    id: 'implementationshortfall',
-    name: 'Implementation Shortfall',
-  },
-  {
-    id: 'hft',
-    name: 'HFT',
-  },
-  {
-    id: 'machinelearning',
-    name: 'Machine Learning',
-  },
-  {
-    id: 'eventdriven',
-    name: 'Event-Driven',
-  },
-  {
-    id: 'scalping',
-    name: 'Scalping',
-  },
+  { id: 'gapandgo', name: 'Gap and Go' },
+  { id: 'trendfollowing', name: 'Trend Following' },
+  { id: 'meanreversion', name: 'Mean Reversion' },
+  { id: 'momentum', name: 'Momentum Trading' },
+  { id: 'arbitrage', name: 'Arbitrage' },
+  { id: 'statisticalarbitrage', name: 'Statistical Arbitrage' },
+  { id: 'marketmaking', name: 'Market Making' },
+  { id: 'vwap', name: 'VWAP' },
+  { id: 'twap', name: 'TWAP' },
+  { id: 'pov', name: 'POV' },
+  { id: 'implementationshortfall', name: 'Implementation Shortfall' },
+  { id: 'hft', name: 'HFT' },
+  { id: 'machinelearning', name: 'Machine Learning' },
+  { id: 'eventdriven', name: 'Event-Driven' },
+  { id: 'scalping', name: 'Scalping' },
 ];
 
 export default function BacktestingPage() {
@@ -139,13 +95,15 @@ export default function BacktestingPage() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid gap-3">
-                <Label htmlFor="start-date">Start Date</Label>
-                <Input id="start-date" type="date" defaultValue="2023-01-01" />
-              </div>
-              <div className="grid gap-3">
-                <Label htmlFor="end-date">End Date</Label>
-                <Input id="end-date" type="date" defaultValue="2023-12-31" />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-3">
+                  <Label htmlFor="start-date">Start Date</Label>
+                  <Input id="start-date" type="date" defaultValue="2023-01-01" />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="end-date">End Date</Label>
+                  <Input id="end-date" type="date" defaultValue="2023-12-31" />
+                </div>
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="capital">Initial Capital</Label>
@@ -242,9 +200,7 @@ export default function BacktestingPage() {
                     <CardDescription>Visual representation of the backtest performance.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className="relative aspect-video w-full">
-                        <Image src="https://picsum.photos/seed/candlestick/1200/675" alt="Backtest candlestick chart" fill data-ai-hint="candlestick chart" className="rounded-md object-cover"/>
-                    </div>
+                    <CandlestickChart />
                 </CardContent>
             </Card>
            </TabsContent>
