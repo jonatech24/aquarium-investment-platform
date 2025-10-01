@@ -33,22 +33,67 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const strategies = [
-    { id: 'gapandgo', name: 'Gap and Go' },
-    { id: 'trendfollowing', name: 'Trend Following' },
-    { id: 'meanreversion', name: 'Mean Reversion' },
-    { id: 'momentum', name: 'Momentum Trading' },
-    { id: 'arbitrage', name: 'Arbitrage' },
-    { id: 'statisticalarbitrage', name: 'Statistical Arbitrage' },
-    { id: 'marketmaking', name: 'Market Making' },
-    { id: 'vwap', name: 'VWAP' },
-    { id: 'twap', name: 'TWAP' },
-    { id: 'pov', name: 'POV' },
-    { id: 'implementationshortfall', name: 'Implementation Shortfall' },
-    { id: 'hft', name: 'HFT' },
-    { id: 'machinelearning', name: 'Machine Learning' },
-    { id: 'eventdriven', name: 'Event-Driven' },
-    { id: 'scalping', name: 'Scalping' },
-  ];
+  {
+    id: 'gapandgo',
+    name: 'Gap and Go',
+  },
+  {
+    id: 'trendfollowing',
+    name: 'Trend Following',
+  },
+  {
+    id: 'meanreversion',
+    name: 'Mean Reversion',
+  },
+  {
+    id: 'momentum',
+    name: 'Momentum Trading',
+  },
+  {
+    id: 'arbitrage',
+    name: 'Arbitrage',
+  },
+  {
+    id: 'statisticalarbitrage',
+    name: 'Statistical Arbitrage',
+  },
+  {
+    id: 'marketmaking',
+    name: 'Market Making',
+  },
+  {
+    id: 'vwap',
+    name: 'VWAP',
+  },
+  {
+    id: 'twap',
+    name: 'TWAP',
+  },
+  {
+    id: 'pov',
+    name: 'POV',
+  },
+  {
+    id: 'implementationshortfall',
+    name: 'Implementation Shortfall',
+  },
+  {
+    id: 'hft',
+    name: 'HFT',
+  },
+  {
+    id: 'machinelearning',
+    name: 'Machine Learning',
+  },
+  {
+    id: 'eventdriven',
+    name: 'Event-Driven',
+  },
+  {
+    id: 'scalping',
+    name: 'Scalping',
+  },
+];
 
 export default function BacktestingPage() {
   const searchParams = useSearchParams();
@@ -198,7 +243,7 @@ export default function BacktestingPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="relative aspect-video w-full">
-                        <Image src="https://picsum.photos/seed/chart/1200/675" alt="Backtest chart" fill data-ai-hint="stock chart" className="rounded-md object-cover"/>
+                        <Image src="https://picsum.photos/seed/candlestick/1200/675" alt="Backtest candlestick chart" fill data-ai-hint="candlestick chart" className="rounded-md object-cover"/>
                     </div>
                 </CardContent>
             </Card>
