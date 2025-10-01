@@ -77,7 +77,7 @@ export default function HeatmapPage() {
             <DropdownMenuTrigger asChild>
                 <Button variant="outline">
                     <Columns className="mr-2" />Sector <ChevronDown className="ml-2"/>
-                Button>
+                </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuItem>Technology</DropdownMenuItem>
