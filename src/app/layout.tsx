@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'MLGO Trading Platform',
+  title: 'Aquarium Investing Platform',
   description: 'Automated trading and machine learning platform.',
 };
 

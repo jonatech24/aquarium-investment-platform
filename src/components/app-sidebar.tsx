@@ -64,7 +64,7 @@ export function AppSidebar() {
       <SidebarHeader className="border-b">
         <div className="flex items-center gap-2">
           <Logo />
-          <span className="text-lg font-semibold">MLGO Trading</span>
+          <span className="text-lg font-semibold">Aquarium Investing</span>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -94,7 +94,7 @@ export function AppSidebar() {
               <div className="text-left">
                 <p className="text-sm font-medium">Demo User</p>
                 <p className="text-xs text-muted-foreground">
-                  trader@mlgo.com
+                  trader@aquarium.com
                 </p>
               </div>
             </Button>

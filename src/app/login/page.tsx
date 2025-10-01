@@ -34,7 +34,7 @@ export default function LoginPage() {
             <div className="flex justify-center">
               <Logo />
             </div>
-            <h1 className="text-3xl font-bold">MLGO Trading Platform</h1>
+            <h1 className="text-3xl font-bold">Aquarium Investing Platform</h1>
             <p className="text-balance text-muted-foreground">
               Enter your email below to login to your account
             </p>
@@ -48,7 +48,7 @@ export default function LoginPage() {
                   type="email"
                   placeholder="m@example.com"
                   required
-                  defaultValue="trader@mlgo.com"
+                  defaultValue="trader@aquarium.com"
                 />
               </div>
               <div className="grid gap-2">
