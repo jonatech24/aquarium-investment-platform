@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -22,41 +23,157 @@ import { Badge } from '@/components/ui/badge';
 
 const strategies = [
   {
-    id: 'gridbot',
-    name: 'GridBot',
-    description: 'Places buy/sell orders at regular intervals above and below a set price.',
+    id: 'gapandgo',
+    name: 'Gap and Go',
+    markets: 'Equities',
+    complexity: 'Medium',
+    holdingPeriod: 'Minutes-Hours',
+    keyIndicator: 'Volume Surge',
     pnl: 2750,
     status: 'active',
   },
   {
-    id: 'momentum',
-    name: 'Momentum',
-    description: 'Buys assets that have been showing an upward trend in price.',
+    id: 'trendfollowing',
+    name: 'Trend Following',
+    markets: 'All',
+    complexity: 'Low',
+    holdingPeriod: 'Days-Weeks',
+    keyIndicator: 'Moving Averages',
     pnl: 4200,
     status: 'active',
   },
   {
-    id: 'meanrev',
+    id: 'meanreversion',
     name: 'Mean Reversion',
-    description: 'Assumes that asset prices will tend to revert to the long-term mean.',
+    markets: 'Equities/Forex',
+    complexity: 'Medium',
+    holdingPeriod: 'Hours-Days',
+    keyIndicator: 'Bollinger Bands',
     pnl: -1500,
     status: 'inactive',
   },
   {
-    id: 'arbitrage',
-    name: 'Arbitrage',
-    description: 'Exploits price differences of the same asset on different markets.',
+    id: 'momentum',
+    name: 'Momentum Trading',
+    markets: 'Equities',
+    complexity: 'Medium',
+    holdingPeriod: 'Weeks-Months',
+    keyIndicator: 'ROC/RSI',
     pnl: 800,
     status: 'active',
   },
   {
-    id: 'trendfollow',
-    name: 'TrendFollowing',
-    description: 'Follows the trend in a market, buying when it goes up, selling when it goes down.',
+    id: 'arbitrage',
+    name: 'Arbitrage',
+    markets: 'All',
+    complexity: 'High',
+    holdingPeriod: 'Seconds-Minutes',
+    keyIndicator: 'Price Scanner',
     pnl: 3100,
     status: 'inactive',
   },
+  {
+    id: 'statisticalarbitrage',
+    name: 'Statistical Arbitrage',
+    markets: 'Equities/Futures',
+    complexity: 'High',
+    holdingPeriod: 'Minutes-Days',
+    keyIndicator: 'Cointegration Test',
+    pnl: 5500,
+    status: 'active',
+  },
+  {
+    id: 'marketmaking',
+    name: 'Market Making',
+    markets: 'All',
+    complexity: 'High',
+    holdingPeriod: 'Seconds',
+    keyIndicator: 'Order Book API',
+    pnl: 12000,
+    status: 'active',
+  },
+  {
+    id: 'vwap',
+    name: 'VWAP',
+    markets: 'Equities',
+    complexity: 'Medium',
+    holdingPeriod: 'Hours',
+    keyIndicator: 'Volume Profiles',
+    pnl: 1800,
+    status: 'inactive',
+  },
+  {
+    id: 'twap',
+    name: 'TWAP',
+    markets: 'Equities',
+    complexity: 'Low',
+    holdingPeriod: 'Hours',
+    keyIndicator: 'Time Slots',
+    pnl: 950,
+    status: 'active',
+  },
+  {
+    id: 'pov',
+    name: 'POV',
+    markets: 'Equities',
+    complexity: 'Medium',
+    holdingPeriod: 'Hours',
+    keyIndicator: 'Volume Monitor',
+    pnl: -500,
+    status: 'inactive',
+  },
+  {
+    id: 'implementationshortfall',
+    name: 'Implementation Shortfall',
+    markets: 'Equities',
+    complexity: 'High',
+    holdingPeriod: 'Minutes-Hours',
+    keyIndicator: 'Cost Optimizer',
+    pnl: 2100,
+    status: 'active',
+  },
+  {
+    id: 'hft',
+    name: 'HFT',
+    markets: 'All',
+    complexity: 'High',
+    holdingPeriod: 'Milliseconds',
+    keyIndicator: 'Latency Tools',
+    pnl: 25000,
+    status: 'active',
+  },
+  {
+    id: 'machinelearning',
+    name: 'Machine Learning',
+    markets: 'All',
+    complexity: 'High',
+    holdingPeriod: 'Varies',
+    keyIndicator: 'Neural Networks',
+    pnl: 7800,
+    status: 'active',
+  },
+  {
+    id: 'eventdriven',
+    name: 'Event-Driven',
+    markets: 'All',
+    complexity: 'Medium',
+    holdingPeriod: 'Minutes-Hours',
+    keyIndicator: 'NLP Parsers',
+    pnl: 3200,
+    status: 'active',
+  },
+  {
+    id: 'scalping',
+    name: 'Scalping',
+    markets: 'Forex',
+    complexity: 'Medium',
+    holdingPeriod: 'Seconds-Minutes',
+    keyIndicator: 'Tick Data',
+    pnl: 4800,
+    status: 'active',
+  },
 ];
+
 
 export default function StrategiesPage() {
   return (
@@ -79,23 +196,32 @@ export default function StrategiesPage() {
       <Card>
         <CardHeader>
           <CardTitle>My Strategies</CardTitle>
+          <CardDescription>
+            A curated list of trading strategies. Use them as a starting point for your own custom automated trading systems.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Description</TableHead>
+                <TableHead className="w-[180px]">Strategy</TableHead>
+                <TableHead>Typical Markets</TableHead>
+                <TableHead>Complexity</TableHead>
+                <TableHead>Holding Period</TableHead>
+                <TableHead>Key Indicator/Tool</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Lifetime P&L</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="text-right w-[100px]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {strategies.map((strategy) => (
                 <TableRow key={strategy.id}>
                   <TableCell className="font-medium">{strategy.name}</TableCell>
-                  <TableCell className="text-muted-foreground hidden md:table-cell">{strategy.description}</TableCell>
+                  <TableCell className="text-muted-foreground">{strategy.markets}</TableCell>
+                  <TableCell className="text-muted-foreground">{strategy.complexity}</TableCell>
+                  <TableCell className="text-muted-foreground">{strategy.holdingPeriod}</TableCell>
+                  <TableCell className="text-muted-foreground">{strategy.keyIndicator}</TableCell>
                   <TableCell>
                     <Badge variant={strategy.status === 'active' ? 'secondary' : 'outline'} className={strategy.status === 'active' ? 'bg-green-800/80 text-green-300' : ''}>
                       {strategy.status === 'active' ? 'Active' : 'Inactive'}
