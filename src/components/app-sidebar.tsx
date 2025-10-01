@@ -8,6 +8,7 @@ import {
   Settings,
   User,
   LogOut,
+  Flame,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -53,6 +54,11 @@ const menuItems = [
     href: '/news',
     label: 'News',
     icon: Newspaper,
+  },
+  {
+    href: '/heatmap',
+    label: 'Heatmap',
+    icon: Flame,
   },
 ];
 
