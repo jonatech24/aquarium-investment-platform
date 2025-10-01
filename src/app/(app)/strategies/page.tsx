@@ -1,130 +1,129 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
-import { generateStrategyFromPrompt } from '@/ai/flows/generate-strategy-from-prompt';
-import { Loader2, Copy } from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { PlusCircle, FlaskConical, Pencil } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
-const placeholderStrategy = `
-class MyStrategy(bt.Strategy):
-    def __init__(self):
-        self.dataclose = self.datas[0].close
-        self.order = None
-
-    def next(self):
-        if self.order:
-            return
-        if not self.position:
-            if self.dataclose[0] < self.dataclose[-1]:
-                self.order = self.buy()
-        else:
-            if len(self) >= (self.bar_executed + 5):
-                self.order = self.sell()
-`;
+const strategies = [
+  {
+    id: 'gridbot',
+    name: 'GridBot',
+    description: 'Places buy/sell orders at regular intervals above and below a set price.',
+    pnl: 2750,
+    status: 'active',
+  },
+  {
+    id: 'momentum',
+    name: 'Momentum',
+    description: 'Buys assets that have been showing an upward trend in price.',
+    pnl: 4200,
+    status: 'active',
+  },
+  {
+    id: 'meanrev',
+    name: 'Mean Reversion',
+    description: 'Assumes that asset prices will tend to revert to the long-term mean.',
+    pnl: -1500,
+    status: 'inactive',
+  },
+  {
+    id: 'arbitrage',
+    name: 'Arbitrage',
+    description: 'Exploits price differences of the same asset on different markets.',
+    pnl: 800,
+    status: 'active',
+  },
+  {
+    id: 'trendfollow',
+    name: 'TrendFollowing',
+    description: 'Follows the trend in a market, buying when it goes up, selling when it goes down.',
+    pnl: 3100,
+    status: 'inactive',
+  },
+];
 
 export default function StrategiesPage() {
-  const [prompt, setPrompt] = useState(
-    'Create a simple moving average crossover strategy. Buy when the fast MA (10 periods) crosses above the slow MA (30 periods). Sell when the fast MA crosses below the slow MA.'
-  );
-  const [generatedCode, setGeneratedCode] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-
-  const handleGenerate = async () => {
-    if (!prompt) {
-      toast({
-        title: 'Error',
-        description: 'Prompt cannot be empty.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    setIsLoading(true);
-    setGeneratedCode('');
-    try {
-      const result = await generateStrategyFromPrompt({ prompt });
-      setGeneratedCode(result.strategyCode);
-      toast({
-        title: 'Strategy Generated',
-        description: 'Python code for your strategy is ready.',
-      });
-    } catch (error) {
-      console.error('Failed to generate strategy:', error);
-      setGeneratedCode(placeholderStrategy); // Show placeholder on error
-      toast({
-        title: 'Generation Failed',
-        description: 'Could not generate strategy. Showing a placeholder.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  
-  const handleCopy = () => {
-    const codeToCopy = generatedCode || placeholderStrategy;
-    navigator.clipboard.writeText(codeToCopy);
-    toast({
-        title: 'Copied to Clipboard',
-        description: 'Strategy code has been copied.',
-      });
-  }
-
   return (
-    <div className="grid flex-1 gap-4 md:gap-8">
+    <div className="flex flex-col gap-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Strategies</h1>
+          <p className="text-muted-foreground">
+            Manage your trading strategies and create new ones.
+          </p>
+        </div>
+        <Link href="/strategies/new">
+          <Button>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Create Strategy
+          </Button>
+        </Link>
+      </div>
+
       <Card>
         <CardHeader>
-          <CardTitle>AI Strategy Generator</CardTitle>
-          <CardDescription>
-            Describe your trading strategy in plain English, and our AI will
-            generate the Python code for you using Backtrader.
-          </CardDescription>
+          <CardTitle>My Strategies</CardTitle>
         </CardHeader>
         <CardContent>
-          <Textarea
-            placeholder="e.g., Buy when RSI is below 30 and sell when it's above 70."
-            className="min-h-[100px]"
-            value={prompt}
-            onChange={e => setPrompt(e.target.value)}
-          />
-        </CardContent>
-        <CardFooter>
-          <Button onClick={handleGenerate} disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Generate Strategy
-          </Button>
-        </CardFooter>
-      </Card>
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-                <CardTitle>Generated Python Code</CardTitle>
-                <CardDescription>
-                Copy and use this code in your backtesting environment.
-                </CardDescription>
-            </div>
-            <Button variant="ghost" size="icon" onClick={handleCopy}>
-                <Copy className="h-4 w-4" />
-            </Button>
-        </CardHeader>
-        <CardContent>
-          <pre className="bg-muted p-4 rounded-lg overflow-x-auto">
-            <code className="text-sm font-code">
-              {isLoading
-                ? 'Generating your strategy...'
-                : generatedCode || placeholderStrategy}
-            </code>
-          </pre>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Lifetime P&L</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {strategies.map((strategy) => (
+                <TableRow key={strategy.id}>
+                  <TableCell className="font-medium">{strategy.name}</TableCell>
+                  <TableCell className="text-muted-foreground hidden md:table-cell">{strategy.description}</TableCell>
+                  <TableCell>
+                    <Badge variant={strategy.status === 'active' ? 'secondary' : 'outline'} className={strategy.status === 'active' ? 'bg-green-800/80 text-green-300' : ''}>
+                      {strategy.status === 'active' ? 'Active' : 'Inactive'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className={`text-right font-mono ${strategy.pnl > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    ${strategy.pnl.toLocaleString()}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex gap-2 justify-end">
+                      <Link href={`/strategies/${strategy.id}`}>
+                        <Button variant="ghost" size="icon">
+                            <Pencil className="h-4 w-4" />
+                            <span className="sr-only">Edit</span>
+                        </Button>
+                      </Link>
+                      <Link href={`/backtesting?strategy=${strategy.id}`}>
+                         <Button variant="ghost" size="icon">
+                            <FlaskConical className="h-4 w-4" />
+                             <span className="sr-only">Backtest</span>
+                        </Button>
+                      </Link>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
     </div>

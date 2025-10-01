@@ -29,8 +29,20 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 export default function BacktestingPage() {
+  const searchParams = useSearchParams();
+  const strategyParam = searchParams.get('strategy');
+  const [selectedStrategy, setSelectedStrategy] = useState(strategyParam || 'gridbot');
+
+  useEffect(() => {
+    if (strategyParam) {
+      setSelectedStrategy(strategyParam);
+    }
+  }, [strategyParam]);
+
   return (
     <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
       <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-1">
@@ -49,14 +61,16 @@ export default function BacktestingPage() {
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="strategy">Strategy</Label>
-                <Select defaultValue="topgrid">
+                <Select value={selectedStrategy} onValueChange={setSelectedStrategy}>
                   <SelectTrigger id="strategy">
                     <SelectValue placeholder="Select strategy" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="topgrid">TopGridStrategy</SelectItem>
+                    <SelectItem value="gridbot">GridBot</SelectItem>
                     <SelectItem value="momentum">Momentum</SelectItem>
                     <SelectItem value="meanrev">Mean Reversion</SelectItem>
+                    <SelectItem value="arbitrage">Arbitrage</SelectItem>
+                    <SelectItem value="trendfollow">TrendFollowing</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -94,7 +108,7 @@ export default function BacktestingPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Backtest Results</CardTitle>
-                <CardDescription>Summary of performance metrics.</CardDescription>
+                <CardDescription>Summary of performance metrics for {selectedStrategy && <span className="capitalize font-medium">{selectedStrategy.replace(/([A-Z])/g, ' $1')}</span>}.</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4 md:grid-cols-2">
                 <Card>
@@ -166,7 +180,7 @@ export default function BacktestingPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="relative aspect-video w-full">
-                        <Image src="https://picsum.photos/seed/chart/1200/675" alt="Backtest chart" layout="fill" objectFit="cover" data-ai-hint="stock chart" className="rounded-md"/>
+                        <Image src="https://picsum.photos/seed/chart/1200/675" alt="Backtest chart" fill objectFit="cover" data-ai-hint="stock chart" className="rounded-md"/>
                     </div>
                 </CardContent>
             </Card>
