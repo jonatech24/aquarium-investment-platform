@@ -52,11 +52,13 @@ export function PortfolioChart() {
 }
 
 const strategyPerformanceData = [
-  { strategy: 'GridBot', pnl: 2750 },
-  { strategy: 'Momentum', pnl: 4200 },
-  { strategy: 'MeanRev', pnl: -1500 },
-  { strategy: 'Arbitrage', pnl: 800 },
-  { strategy: 'TrendFollow', pnl: 3100 },
+    { strategy: 'Gap & Go', pnl: 2750 },
+    { strategy: 'Trend Following', pnl: 4200 },
+    { strategy: 'Mean Reversion', pnl: -1500 },
+    { strategy: 'Momentum', pnl: 800 },
+    { strategy: 'Arbitrage', pnl: 3100 },
+    { strategy: 'Stat Arb', pnl: 5500 },
+    { strategy: 'Market Making', pnl: 12000 },
 ];
 
 const strategyChartConfig = {
@@ -71,7 +73,7 @@ export function StrategyPerformanceChart() {
     <ChartContainer config={strategyChartConfig} className="h-[250px] w-full">
       <BarChart data={strategyPerformanceData} layout="vertical">
         <XAxis type="number" dataKey="pnl" hide />
-        <YAxis type="category" dataKey="strategy" tickLine={false} axisLine={false} width={80} />
+        <YAxis type="category" dataKey="strategy" tickLine={false} axisLine={false} width={100} />
         <Tooltip
           cursor={false}
           content={<ChartTooltipContent hideLabel />}

@@ -32,16 +32,38 @@ import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+const strategies = [
+    { id: 'gapandgo', name: 'Gap and Go' },
+    { id: 'trendfollowing', name: 'Trend Following' },
+    { id: 'meanreversion', name: 'Mean Reversion' },
+    { id: 'momentum', name: 'Momentum Trading' },
+    { id: 'arbitrage', name: 'Arbitrage' },
+    { id: 'statisticalarbitrage', name: 'Statistical Arbitrage' },
+    { id: 'marketmaking', name: 'Market Making' },
+    { id: 'vwap', name: 'VWAP' },
+    { id: 'twap', name: 'TWAP' },
+    { id: 'pov', name: 'POV' },
+    { id: 'implementationshortfall', name: 'Implementation Shortfall' },
+    { id: 'hft', name: 'HFT' },
+    { id: 'machinelearning', name: 'Machine Learning' },
+    { id: 'eventdriven', name: 'Event-Driven' },
+    { id: 'scalping', name: 'Scalping' },
+  ];
+
 export default function BacktestingPage() {
   const searchParams = useSearchParams();
   const strategyParam = searchParams.get('strategy');
-  const [selectedStrategy, setSelectedStrategy] = useState(strategyParam || 'gridbot');
+  const [selectedStrategy, setSelectedStrategy] = useState(strategyParam || 'trendfollowing');
 
   useEffect(() => {
     if (strategyParam) {
       setSelectedStrategy(strategyParam);
     }
   }, [strategyParam]);
+
+  const getStrategyName = (id: string) => {
+    return strategies.find(s => s.id === id)?.name || id;
+  }
 
   return (
     <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
@@ -66,11 +88,9 @@ export default function BacktestingPage() {
                     <SelectValue placeholder="Select strategy" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="gridbot">GridBot</SelectItem>
-                    <SelectItem value="momentum">Momentum</SelectItem>
-                    <SelectItem value="meanrev">Mean Reversion</SelectItem>
-                    <SelectItem value="arbitrage">Arbitrage</SelectItem>
-                    <SelectItem value="trendfollow">TrendFollowing</SelectItem>
+                    {strategies.map(strategy => (
+                        <SelectItem key={strategy.id} value={strategy.id}>{strategy.name}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -108,7 +128,7 @@ export default function BacktestingPage() {
             <Card>
               <CardHeader>
                 <CardTitle>Backtest Results</CardTitle>
-                <CardDescription>Summary of performance metrics for {selectedStrategy && <span className="capitalize font-medium">{selectedStrategy.replace(/([A-Z])/g, ' $1')}</span>}.</CardDescription>
+                <CardDescription>Summary of performance metrics for {selectedStrategy && <span className="capitalize font-medium">{getStrategyName(selectedStrategy)}</span>}.</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4 md:grid-cols-2">
                 <Card>
