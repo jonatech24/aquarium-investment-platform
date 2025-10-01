@@ -29,14 +29,14 @@ const heatmapData = [
 ];
 
 const HeatmapCell = ({ ticker, change }: { ticker: string; change: number }) => {
-  const colorClass =
-    change >= 0
-      ? `bg-green-500/${Math.min(Math.floor(Math.abs(change) * 20), 90) + 10}`
-      : `bg-red-500/${Math.min(Math.floor(Math.abs(change) * 20), 90) + 10}`;
-  const textColor = `text-white`;
+  const intensity = Math.min(Math.floor(Math.abs(change) * 20), 80) + 20;
+  const backgroundColor = change >= 0 ? `rgba(34, 197, 94, ${intensity / 100})` : `rgba(239, 68, 68, ${intensity / 100})`;
 
   return (
-    <div className={`flex flex-col items-center justify-center p-2 rounded-md ${colorClass} ${textColor}`}>
+    <div 
+      className="flex flex-col items-center justify-center p-2 rounded-md text-white" 
+      style={{ backgroundColor }}
+    >
       <div className="text-lg md:text-xl font-bold">{ticker}</div>
       <div className="text-sm md:text-base font-medium">{(change > 0 ? '+' : '') + change.toFixed(2)}%</div>
     </div>
