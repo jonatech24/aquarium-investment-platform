@@ -66,7 +66,7 @@ export default function BacktestingPage() {
   }
 
   return (
-    <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
+    <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-4 xl:grid-cols-4">
       <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-1">
         <Card>
           <CardHeader>
@@ -94,15 +94,13 @@ export default function BacktestingPage() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="grid gap-3">
-                  <Label htmlFor="start-date">Start Date</Label>
-                  <Input id="start-date" type="date" defaultValue="2023-01-01" />
-                </div>
-                <div className="grid gap-3">
-                  <Label htmlFor="end-date">End Date</Label>
-                  <Input id="end-date" type="date" defaultValue="2023-12-31" />
-                </div>
+              <div className="grid gap-3">
+                <Label htmlFor="start-date">Start Date</Label>
+                <Input id="start-date" type="date" defaultValue="2023-01-01" />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="end-date">End Date</Label>
+                <Input id="end-date" type="date" defaultValue="2023-12-31" />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="capital">Initial Capital</Label>
@@ -115,7 +113,7 @@ export default function BacktestingPage() {
           </CardFooter>
         </Card>
       </div>
-      <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+      <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-3">
         <Tabs defaultValue="summary">
           <div className="flex items-center">
             <TabsList>
