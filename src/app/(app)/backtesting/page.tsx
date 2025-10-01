@@ -1,0 +1,178 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import Image from 'next/image';
+
+export default function BacktestingPage() {
+  return (
+    <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
+      <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-1">
+        <Card>
+          <CardHeader>
+            <CardTitle>Backtest Configuration</CardTitle>
+            <CardDescription>
+              Set up the parameters for your backtest.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-6">
+              <div className="grid gap-3">
+                <Label htmlFor="ticker">Ticker</Label>
+                <Input id="ticker" type="text" defaultValue="AAPL" />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="strategy">Strategy</Label>
+                <Select defaultValue="topgrid">
+                  <SelectTrigger id="strategy">
+                    <SelectValue placeholder="Select strategy" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="topgrid">TopGridStrategy</SelectItem>
+                    <SelectItem value="momentum">Momentum</SelectItem>
+                    <SelectItem value="meanrev">Mean Reversion</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3">
+                  <Label htmlFor="start-date">Start Date</Label>
+                  <Input id="start-date" type="date" defaultValue="2023-01-01" />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="end-date">End Date</Label>
+                  <Input id="end-date" type="date" defaultValue="2023-12-31" />
+                </div>
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="capital">Initial Capital</Label>
+                <Input id="capital" type="number" defaultValue="100000" />
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter className="border-t px-6 py-4">
+            <Button>Run Backtest</Button>
+          </CardFooter>
+        </Card>
+      </div>
+      <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+        <Tabs defaultValue="summary">
+          <div className="flex items-center">
+            <TabsList>
+              <TabsTrigger value="summary">Summary</TabsTrigger>
+              <TabsTrigger value="trades">Trades</TabsTrigger>
+              <TabsTrigger value="chart">Chart</TabsTrigger>
+            </TabsList>
+          </div>
+          <TabsContent value="summary">
+            <Card>
+              <CardHeader>
+                <CardTitle>Backtest Results</CardTitle>
+                <CardDescription>Summary of performance metrics.</CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-4 md:grid-cols-2">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardDescription>Final Portfolio Value</CardDescription>
+                    <CardTitle className="text-4xl">$124,532.10</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-xs text-muted-foreground">
+                      +24.53% total return
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardDescription>Sharpe Ratio</CardDescription>
+                    <CardTitle className="text-4xl">1.78</CardTitle>
+                  </CardHeader>
+                   <CardContent>
+                    <div className="text-xs text-muted-foreground">
+                      Annualized
+                    </div>
+                  </CardContent>
+                </Card>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="trades">
+            <Card>
+              <CardHeader>
+                <CardTitle>Trade History</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Side</TableHead>
+                      <TableHead>Price</TableHead>
+                      <TableHead>Size</TableHead>
+                      <TableHead>Value</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell>2023-01-20</TableCell>
+                      <TableCell><Badge className="text-green-300 bg-green-800/60" variant="outline">BUY</Badge></TableCell>
+                      <TableCell>$135.20</TableCell>
+                      <TableCell>10</TableCell>
+                      <TableCell>$1,352.00</TableCell>
+                    </TableRow>
+                     <TableRow>
+                      <TableCell>2023-02-15</TableCell>
+                      <TableCell><Badge className="text-red-300 bg-red-800/60" variant="outline">SELL</Badge></TableCell>
+                      <TableCell>$148.50</TableCell>
+                      <TableCell>10</TableCell>
+                      <TableCell>$1,485.00</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+           <TabsContent value="chart">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Performance Chart</CardTitle>
+                    <CardDescription>Visual representation of the backtest performance.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="relative aspect-video w-full">
+                        <Image src="https://picsum.photos/seed/chart/1200/675" alt="Backtest chart" layout="fill" objectFit="cover" data-ai-hint="stock chart" className="rounded-md"/>
+                    </div>
+                </CardContent>
+            </Card>
+           </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}
