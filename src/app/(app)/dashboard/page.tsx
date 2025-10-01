@@ -1,3 +1,7 @@
+
+'use client';
+
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -26,8 +30,76 @@ import {
   PortfolioChart,
   StrategyPerformanceChart,
 } from '@/components/dashboard-charts';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+
+const tradeAccounts = [
+  {
+    id: 'acc_ib_real',
+    name: 'Interactive Brokers - Real',
+    trades: [
+      {
+        ticker: 'AAPL',
+        side: 'BUY',
+        amount: '$2,500.00',
+        price: '$205.50',
+      },
+      {
+        ticker: 'TSLA',
+        side: 'SELL',
+        amount: '$5,100.00',
+        price: '$180.12',
+      },
+       {
+        ticker: 'MSFT',
+        side: 'BUY',
+        amount: '$3,000.00',
+        price: '$445.60',
+      },
+    ],
+  },
+  {
+    id: 'acc_alpaca_paper',
+    name: 'Alpaca - Paper Trading',
+    trades: [
+      {
+        ticker: 'NVDA',
+        side: 'BUY',
+        amount: '$10,000.00',
+        price: '$120.50',
+      },
+      {
+        ticker: 'GOOG',
+        side: 'BUY',
+        amount: '$8,000.00',
+        price: '$175.25',
+      },
+    ],
+  },
+  {
+    id: 'acc_etrade_swing',
+    name: 'E-Trade - Swing Account',
+    trades: [
+      {
+        ticker: 'AMD',
+        side: 'SELL',
+        amount: '$4,200.00',
+        price: '$165.80',
+      },
+    ],
+  },
+];
 
 export default function Dashboard() {
+  const [selectedAccountId, setSelectedAccountId] = useState(tradeAccounts[0].id);
+  
+  const selectedAccount = tradeAccounts.find(acc => acc.id === selectedAccountId);
+
   return (
     <div className="flex flex-col gap-8">
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
@@ -111,12 +183,24 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
         <Card className="xl:col-span-2">
-          <CardHeader className="flex flex-row items-center">
+          <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between">
             <div className="grid gap-2">
               <CardTitle>Recent Trades</CardTitle>
               <CardDescription>
-                Recent trades from your active strategies.
+                Recent trades from your active accounts.
               </CardDescription>
+            </div>
+            <div className="mt-4 md:mt-0">
+               <Select value={selectedAccountId} onValueChange={setSelectedAccountId}>
+                  <SelectTrigger className="w-full md:w-[240px]">
+                    <SelectValue placeholder="Select Account" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {tradeAccounts.map(account => (
+                      <SelectItem key={account.id} value={account.id}>{account.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
             </div>
           </CardHeader>
           <CardContent>
@@ -130,30 +214,20 @@ export default function Dashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <div className="font-medium">AAPL</div>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <Badge variant="secondary" className="bg-green-800/80 text-green-300">
-                      BUY
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">$2,500.00</TableCell>
-                  <TableCell className="text-right">$205.50</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <div className="font-medium">TSLA</div>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <Badge variant="secondary" className="bg-red-800/80 text-red-300">
-                      SELL
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">$5,100.00</TableCell>
-                  <TableCell className="text-right">$180.12</TableCell>
-                </TableRow>
+                {selectedAccount?.trades.map((trade, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <div className="font-medium">{trade.ticker}</div>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant="secondary" className={trade.side === 'BUY' ? "bg-green-800/80 text-green-300" : "bg-red-800/80 text-red-300"}>
+                        {trade.side}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">{trade.amount}</TableCell>
+                    <TableCell className="text-right">{trade.price}</TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </CardContent>
