@@ -66,7 +66,7 @@ export default function BacktestingPage() {
   }
 
   return (
-    <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-4 xl:grid-cols-4">
+    <div className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
       <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-1">
         <Card>
           <CardHeader>
@@ -113,7 +113,7 @@ export default function BacktestingPage() {
           </CardFooter>
         </Card>
       </div>
-      <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-3">
+      <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
         <Tabs defaultValue="summary">
           <div className="flex items-center">
             <TabsList>
@@ -198,7 +198,7 @@ export default function BacktestingPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="relative aspect-video w-full">
-                        <Image src="https://picsum.photos/seed/chart/1200/675" alt="Backtest chart" fill objectFit="cover" data-ai-hint="stock chart" className="rounded-md"/>
+                        <Image src="https://picsum.photos/seed/chart/1200/675" alt="Backtest chart" fill data-ai-hint="stock chart" className="rounded-md object-cover"/>
                     </div>
                 </CardContent>
             </Card>
