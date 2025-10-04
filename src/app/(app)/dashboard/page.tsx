@@ -42,6 +42,14 @@ const tradeAccounts = [
   {
     id: 'acc_ib_real',
     name: 'Interactive Brokers - Real',
+    portfolioValue: '$45,231.89',
+    portfolioChange: '+20.1% from last month',
+    activeStrategies: '+12',
+    activeStrategiesChange: '+180.1% from last month',
+    totalTrades: '+12,234',
+    totalTradesChange: '+19% from last month',
+    backtestsRan: '+573',
+    backtestsRanChange: '+201 since last hour',
     trades: [
       {
         ticker: 'AAPL',
@@ -66,6 +74,14 @@ const tradeAccounts = [
   {
     id: 'acc_alpaca_paper',
     name: 'Alpaca - Paper Trading',
+    portfolioValue: '$1,250.72',
+    portfolioChange: '-2.5% from last month',
+    activeStrategies: '+3',
+    activeStrategiesChange: '+50% from last month',
+    totalTrades: '+543',
+    totalTradesChange: '-5% from last month',
+    backtestsRan: '+88',
+    backtestsRanChange: '+10 since last hour',
     trades: [
       {
         ticker: 'NVDA',
@@ -84,6 +100,14 @@ const tradeAccounts = [
   {
     id: 'acc_etrade_swing',
     name: 'E-Trade - Swing Account',
+    portfolioValue: '$15,842.55',
+    portfolioChange: '+10.2% from last month',
+    activeStrategies: '+7',
+    activeStrategiesChange: '+12.1% from last month',
+    totalTrades: '+2,110',
+    totalTradesChange: '+8% from last month',
+    backtestsRan: '+215',
+    backtestsRanChange: '+55 since last hour',
     trades: [
       {
         ticker: 'AMD',
@@ -102,6 +126,18 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-8">
+      <div className="flex justify-end">
+        <Select value={selectedAccountId} onValueChange={setSelectedAccountId}>
+          <SelectTrigger className="w-full md:w-[240px]">
+            <SelectValue placeholder="Select Account" />
+          </SelectTrigger>
+          <SelectContent>
+            {tradeAccounts.map(account => (
+              <SelectItem key={account.id} value={account.id}>{account.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -111,9 +147,9 @@ export default function Dashboard() {
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
+            <div className="text-2xl font-bold">{selectedAccount?.portfolioValue}</div>
             <p className="text-xs text-muted-foreground">
-              +20.1% from last month
+              {selectedAccount?.portfolioChange}
             </p>
           </CardContent>
         </Card>
@@ -125,9 +161,9 @@ export default function Dashboard() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12</div>
+            <div className="text-2xl font-bold">{selectedAccount?.activeStrategies}</div>
             <p className="text-xs text-muted-foreground">
-              +180.1% from last month
+              {selectedAccount?.activeStrategiesChange}
             </p>
           </CardContent>
         </Card>
@@ -137,9 +173,9 @@ export default function Dashboard() {
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
+            <div className="text-2xl font-bold">{selectedAccount?.totalTrades}</div>
             <p className="text-xs text-muted-foreground">
-              +19% from last month
+              {selectedAccount?.totalTradesChange}
             </p>
           </CardContent>
         </Card>
@@ -151,9 +187,9 @@ export default function Dashboard() {
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
+            <div className="text-2xl font-bold">{selectedAccount?.backtestsRan}</div>
             <p className="text-xs text-muted-foreground">
-              +201 since last hour
+              {selectedAccount?.backtestsRanChange}
             </p>
           </CardContent>
         </Card>
@@ -189,18 +225,6 @@ export default function Dashboard() {
               <CardDescription>
                 Recent trades from your active accounts.
               </CardDescription>
-            </div>
-            <div className="mt-4 md:mt-0">
-               <Select value={selectedAccountId} onValueChange={setSelectedAccountId}>
-                  <SelectTrigger className="w-full md:w-[240px]">
-                    <SelectValue placeholder="Select Account" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {tradeAccounts.map(account => (
-                      <SelectItem key={account.id} value={account.id}>{account.name}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
             </div>
           </CardHeader>
           <CardContent>

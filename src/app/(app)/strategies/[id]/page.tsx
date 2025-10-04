@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -126,7 +126,32 @@ export default function StrategyDetailPage({ params }: { params: { id: string } 
   const initialCode = strategyCodeById[strategyId] || 'Strategy code not found.';
   const [code, setCode] = useState(initialCode);
   const [isLoading, setIsLoading] = useState(false);
+  const [backendMessage, setBackendMessage] = useState('Loading message from backend...');
   const { toast } = useToast();
+
+  useEffect(() => {
+    // !!! IMPORTANT: REPLACE THIS URL !!!
+    const functionUrl = 'https://run_strategy-YOUR_PROJECT_ID.cloudfunctions.net/run_strategy';
+
+    fetch(functionUrl)
+      .then(response => response.text())
+      .then(text => {
+        setBackendMessage(text);
+        toast({
+            title: 'Backend Connected',
+            description: 'Successfully received message from the backend.',
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching from backend:", error);
+        setBackendMessage('Failed to connect to backend. Check console for details.');
+        toast({
+            title: 'Backend Connection Failed',
+            description: 'Please update the functionUrl in the code.',
+            variant: 'destructive',
+        });
+      });
+  }, []); // Empty dependency array means this runs once on component mount
 
   const handleCopy = () => {
     navigator.clipboard.writeText(code);
@@ -167,6 +192,15 @@ export default function StrategyDetailPage({ params }: { params: { id: string } 
             </Button>
         </div>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Backend Status</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>{backendMessage}</p>
+        </CardContent>
+      </Card>
       
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">

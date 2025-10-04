@@ -10,6 +10,8 @@ import {
   LogOut,
   Flame,
   Landmark,
+  ClipboardList,
+  DollarSign,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -40,6 +42,16 @@ const menuItems = [
     href: '/dashboard',
     label: 'Dashboard',
     icon: LayoutGrid,
+  },
+  {
+    href: '/live-trading',
+    label: 'Live Trading',
+    icon: DollarSign,
+  },
+  {
+    href: '/forward-demo-testing',
+    label: 'Forward - Demo Testing',
+    icon: ClipboardList,
   },
   {
     href: '/backtesting',
