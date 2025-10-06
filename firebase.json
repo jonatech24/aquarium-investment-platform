@@ -12,5 +12,13 @@
       ],
       "runtime": "python311"
     }
-  ]
+  ],
+  "hosting": {
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
 }

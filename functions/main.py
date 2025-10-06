@@ -17,16 +17,14 @@ try:
 except ValueError:
     pass
 
-# Set CORS options to allow requests from your app's domain
-options.set_global_options(
-    cors=options.CorsOptions(
-        cors_origins=[
-            "http://localhost:3000", # Local dev
-            "https://*.web.app", # Your deployed Firebase app
-            "https://*.firebaseapp.com",
-        ],
-        cors_methods=["post"],
-    )
+# Define CORS options
+cors_options = options.CorsOptions(
+    cors_origins=[
+        "http://localhost:3000", # Local dev
+        "https://*.web.app", # Your deployed Firebase app
+        "https://*.firebaseapp.com",
+    ],
+    cors_methods=["post"],
 )
 
 def load_strategy_module(strategy_id):
@@ -53,7 +51,7 @@ def load_strategy_module(strategy_id):
     
     return module
 
-@https_fn.on_request()
+@https_fn.on_request(cors=cors_options)
 def runbacktest(req: https_fn.Request) -> https_fn.Response:
     """
     An HTTPS Cloud Function to run a trading backtest.

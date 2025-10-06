@@ -33,7 +33,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, useRef, useMemo } from 'react';
 import {
@@ -43,32 +42,26 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  CartesianGrid,
+  Legend,
 } from 'recharts';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Terminal, CalendarIcon, Info } from 'lucide-react';
+import { Terminal, CalendarIcon, Info, Loader2, BarChart, ListOrdered, AlertCircle } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
+
 // --- CONFIGURATION ---
-const BACKEND_URL = 'https://aquarium-investment-platform-studio-2799607830-e7b65.us-east4.hosted.app';
+const BACKEND_URL = 'https://aquarium-investment-platform-studio-2799607830-e7b65.us-east4.hosted.app/';
 
 const strategies = [
     { id: 'trend_following', name: 'Trend Following', active: true },
     { id: 'dependency_free_strategy', name: 'Dependency Free Strategy', active: true },
-    { id: 'ma_cross', name: 'Moving Average Crossover', active: true },
-    { id: 'rsi', name: 'RSI Momentum', active: true },
 ];
-
-const timeframes = {
-    yahoo: ['1d', '5d', '1wk', '1mo', '3mo'],
-    polygon: ['1m', '5m', '15m', '30m', '1h', '4h', '1d'],
-    alpaca: ['1m', '5m', '15m', '1h', '1d'],
-};
-
 
 const strategyParamsConfig: Record<
   string,
@@ -84,24 +77,14 @@ const strategyParamsConfig: Record<
     { name: 'Fast MA', defaultValue: 50, min: 10, max: 100, step: 1, description: 'Period for the fast moving average.' },
     { name: 'Slow MA', defaultValue: 200, min: 100, max: 300, step: 1, description: 'Period for the slow moving average.' },
   ],
-   ma_cross: [
-    { name: 'Fast MA', defaultValue: 50, min: 10, max: 100, step: 1, description: 'Period for the fast moving average.' },
-    { name: 'Slow MA', defaultValue: 200, min: 100, max: 300, step: 1, description: 'Period for the slow moving average.' },
-  ],
-  rsi: [
-    { name: 'RSI Period', defaultValue: 14, min: 7, max: 28, step: 1, description: 'Period for the RSI calculation.' },
-    { name: 'Oversold Threshold', defaultValue: 30, min: 20, max: 40, step: 1, description: 'RSI value below which an asset is considered oversold.' },
-    { name: 'Overbought Threshold', defaultValue: 70, min: 60, max: 80, step: 1, description: 'RSI value above which an asset is considered overbought.' },
-  ],
-
 };
 
+const timeframes = ['1d', '1h', '4h'];
 const optimizationMetrics = [
   'SQN', 'Return [%]', 'Sharpe Ratio', 'Sortino Ratio', 'Calmar Ratio', 'Max. Drawdown [%]', 'Win Rate [%]'
 ];
 
 // --- TYPE DEFINITIONS ---
-interface BacktestResults { /* ... existing interface ... */ }
 interface BacktestError { error: string; }
 
 // --- COMPONENT ---
@@ -115,17 +98,16 @@ export default function BacktestingClientPage() {
   // Config States
   const [selectedStrategy, setSelectedStrategy] = useState(strategyParam || 'trend_following');
   const [dataSource, setDataSource] = useState('yahoo');
-  const [timeframe, setTimeframe] = useState('1d');
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [startDate, setStartDate] = useState<Date | undefined>(new Date('2023-01-01'));
   const [endDate, setEndDate] = useState<Date | undefined>(new Date('2024-01-01'));
+  const [timeframe, setTimeframe] = useState('1d');
 
   // Simulation Config
   const [simulationConfig, setSimulationConfig] = useState({
     cash: 100000,
     commission: 0.001,
     margin: 1.0,
-    tradeOnClose: false,
   });
 
   // Parameters State
@@ -173,8 +155,8 @@ export default function BacktestingClientPage() {
 
   // --- HANDLERS ---
   const handleSimulationConfigChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value, type, checked } = e.target;
-    setSimulationConfig(prev => ({ ...prev, [id]: type === 'checkbox' ? checked : parseFloat(value) }));
+    const { id, value } = e.target;
+    setSimulationConfig(prev => ({ ...prev, [id]: parseFloat(value) }));
   };
 
   const handleSingleParamChange = (name: string, value: string) => {
@@ -192,18 +174,15 @@ export default function BacktestingClientPage() {
 
     const formData = new FormData();
 
-    // Append mode and general settings
     formData.append('mode', activeTab);
     formData.append('strategy', selectedStrategy);
     formData.append('dataSource', dataSource);
     formData.append('timeframe', timeframe);
 
-    // Append simulation config from state
     formData.append('cash', simulationConfig.cash.toString());
     formData.append('commission', simulationConfig.commission.toString());
     formData.append('margin', simulationConfig.margin.toString());
     
-    // Append data source specific settings
     if (dataSource === 'csv') {
       if (!csvFile) {
         setError('Please select a CSV file to upload.');
@@ -214,20 +193,13 @@ export default function BacktestingClientPage() {
     } else {
       const ticker = tickerRef.current?.value || 'SPY';
       formData.append('ticker', ticker);
-      if (startDate) {
-        formData.append('startDate', format(startDate, 'yyyy-MM-dd'));
-      }
-      if (endDate) {
-        formData.append('endDate', format(endDate, 'yyyy-MM-dd'));
-      }
+      if (startDate) formData.append('startDate', format(startDate, 'yyyy-MM-dd'));
+      if (endDate) formData.append('endDate', format(endDate, 'yyyy-MM-dd'));
     }
 
-    // Append parameters based on mode
     if (activeTab === 'single') {
-        // For single run, pass parameters as a JSON string
         formData.append('params', JSON.stringify(singleParams));
     } else { // 'optimize'
-        // For optimization, pass ranges and config
         formData.append('optimization_params', JSON.stringify(optimizationParams));
         formData.append('optimization_config', JSON.stringify(optimizationConfig));
     }
@@ -245,7 +217,6 @@ export default function BacktestingClientPage() {
       }
       
       const finalResult = result as any;
-      // In a single backtest, we might want to enrich the result with the ticker name client-side
       if (activeTab === 'single' && !finalResult.asset_long_name && dataSource === 'yahoo') {
           finalResult.asset_long_name = tickerRef.current?.value || 'SPY';
       }
@@ -266,12 +237,12 @@ export default function BacktestingClientPage() {
         <Card>
           <CardHeader>
             <CardTitle>Backtest Configuration</CardTitle>
-            <CardDescription>Configure your backtest or optimization run.</CardDescription>
+            <CardDescription>Configure and run your backtest or optimization.</CardDescription>
           </CardHeader>
           <CardContent>
             <Accordion type="multiple" defaultValue={['strategy', 'data_source', 'parameters']} className="w-full">
               
-              {/* --- General and Data Source --- */}
+              {/* --- Strategy --- */}
               <AccordionItem value="strategy">
                  <AccordionTrigger className="text-base font-semibold">Strategy</AccordionTrigger>
                  <AccordionContent className="grid gap-6 pt-4">
@@ -287,118 +258,64 @@ export default function BacktestingClientPage() {
                  </AccordionContent>
               </AccordionItem>
 
+              {/* --- Data Source --- */}
               <AccordionItem value="data_source">
                 <AccordionTrigger className="text-base font-semibold">Data Source</AccordionTrigger>
                 <AccordionContent className="grid gap-6 pt-4">
-                  <div className="grid gap-3">
-                    <Label>Source</Label>
-                    <RadioGroup
-                      value={dataSource}
-                      onValueChange={setDataSource}
-                      className="flex items-center gap-4"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="yahoo" id="yahoo" />
-                        <Label htmlFor="yahoo">Yahoo Finance</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="polygon" id="polygon" />
-                        <Label htmlFor="polygon">Polygon</Label>
-                      </div>
-                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="alpaca" id="alpaca" />
-                        <Label htmlFor="alpaca">Alpaca</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="csv" id="csv" />
-                        <Label htmlFor="csv">CSV Upload</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-                  {dataSource !== 'csv' && (
-                    <div className="grid gap-6">
+                  <RadioGroup value={dataSource} onValueChange={setDataSource} className="flex items-center gap-4">
+                    <div className="flex items-center space-x-2"><RadioGroupItem value="yahoo" id="yahoo" /><Label htmlFor="yahoo">Yahoo Finance</Label></div>
+                    <div className="flex items-center space-x-2"><RadioGroupItem value="csv" id="csv" /><Label htmlFor="csv">CSV Upload</Label></div>
+                  </RadioGroup>
+                  {dataSource === 'yahoo' && (
+                    <div className="grid gap-6 pt-4">
                       <div className="grid gap-3">
                         <Label htmlFor="ticker">Ticker</Label>
-                        <Input
-                          id="ticker"
-                          ref={tickerRef}
-                          defaultValue="SPY"
-                        />
+                        <Input id="ticker" ref={tickerRef} defaultValue="SPY" />
                       </div>
-
-                      <div className="grid gap-3">
-                          <Label htmlFor="timeframe">Timeframe</Label>
-                          <Select value={timeframe} onValueChange={setTimeframe}>
-                              <SelectTrigger id="timeframe"><SelectValue placeholder="Select timeframe" /></SelectTrigger>
-                              <SelectContent>
-                                  {timeframes[dataSource as keyof typeof timeframes].map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
-                              </SelectContent>
-                          </Select>
+                      <div className="grid grid-cols-2 gap-4">
+                         <div className="grid gap-3">
+                            <Label htmlFor="timeframe">Timeframe</Label>
+                            <Select value={timeframe} onValueChange={setTimeframe}>
+                                <SelectTrigger><SelectValue/></SelectTrigger>
+                                <SelectContent>
+                                {timeframes.map(tf => <SelectItem key={tf} value={tf}>{tf}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                         <div className="grid gap-3"></div>
                       </div>
-
                       <div className="grid grid-cols-2 gap-4">
                         <div className="grid gap-3">
                           <Label htmlFor="start-date">Start Date</Label>
                           <Popover>
                             <PopoverTrigger asChild>
-                              <Button
-                                variant={'outline'}
-                                className={cn(
-                                  'w-full justify-start text-left font-normal',
-                                  !startDate && 'text-muted-foreground'
-                                )}
-                              >
+                              <Button variant={'outline'} className={cn('w-full justify-start text-left font-normal',!startDate && 'text-muted-foreground')}>
                                 <CalendarIcon className="mr-2 h-4 w-4" />
                                 {startDate ? format(startDate, 'PPP') : <span>Pick a date</span>}
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                              <Calendar
-                                mode="single"
-                                selected={startDate}
-                                onSelect={setStartDate}
-                                initialFocus
-                              />
-                            </PopoverContent>
+                            <PopoverContent className="w-auto p-0"><Calendar mode="single" selected={startDate} onSelect={setStartDate} initialFocus /></PopoverContent>
                           </Popover>
                         </div>
                         <div className="grid gap-3">
                           <Label htmlFor="end-date">End Date</Label>
                           <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant={'outline'}
-                                className={cn(
-                                  'w-full justify-start text-left font-normal',
-                                  !endDate && 'text-muted-foreground'
-                                )}
-                              >
+                             <PopoverTrigger asChild>
+                              <Button variant={'outline'} className={cn('w-full justify-start text-left font-normal', !endDate && 'text-muted-foreground')}>
                                 <CalendarIcon className="mr-2 h-4 w-4" />
                                 {endDate ? format(endDate, 'PPP') : <span>Pick a date</span>}
                               </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                              <Calendar
-                                mode="single"
-                                selected={endDate}
-                                onSelect={setEndDate}
-                                initialFocus
-                              />
-                            </PopoverContent>
+                            <PopoverContent className="w-auto p-0"><Calendar mode="single" selected={endDate} onSelect={setEndDate} initialFocus /></PopoverContent>
                           </Popover>
                         </div>
                       </div>
                     </div>
                   )}
                   {dataSource === 'csv' && (
-                    <div className="grid gap-3">
+                    <div className="grid gap-3 pt-4">
                       <Label htmlFor="csv-file">CSV File</Label>
-                      <Input
-                        id="csv-file"
-                        type="file"
-                        accept=".csv"
-                        onChange={(e) => setCsvFile(e.target.files ? e.target.files[0] : null)}
-                      />
+                      <Input id="csv-file" type="file" accept=".csv" onChange={(e) => setCsvFile(e.target.files ? e.target.files[0] : null)} />
                     </div>
                   )}
                 </AccordionContent>
@@ -413,8 +330,6 @@ export default function BacktestingClientPage() {
                       <TabsTrigger value="single">Backtest</TabsTrigger>
                       <TabsTrigger value="optimize">Optimization</TabsTrigger>
                     </TabsList>
-
-                    {/* SINGLE BACKTEST TAB */}
                     <TabsContent value="single" className="grid gap-4 pt-4">
                       {currentStrategyParams.map(param => (
                         <div key={param.name} className="grid gap-3">
@@ -431,10 +346,8 @@ export default function BacktestingClientPage() {
                         </div>
                       ))}
                     </TabsContent>
-
-                    {/* OPTIMIZATION TAB */}
                     <TabsContent value="optimize" className="pt-4">
-                      <Accordion type="multiple" defaultValue={['opt_params', 'opt_settings']}>
+                      <Accordion type="multiple" defaultValue={['opt_params']}>
                         <AccordionItem value="opt_params">
                           <AccordionTrigger>Strategy Parameters</AccordionTrigger>
                           <AccordionContent className="grid gap-6 pt-4">
@@ -457,9 +370,7 @@ export default function BacktestingClientPage() {
                                 <Label htmlFor="maximize">Metric to Maximize</Label>
                                 <Select value={optimizationConfig.maximize} onValueChange={(value) => setOptimizationConfig(p => ({...p, maximize: value}))}>
                                   <SelectTrigger><SelectValue/></SelectTrigger>
-                                  <SelectContent>
-                                    {optimizationMetrics.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}
-                                  </SelectContent>
+                                  <SelectContent>{optimizationMetrics.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent>
                                 </Select>
                               </div>
                                <div className="grid gap-3">
@@ -497,14 +408,209 @@ export default function BacktestingClientPage() {
           </CardContent>
           <CardFooter className="border-t px-6 py-4">
             <Button className="w-full" onClick={runBacktest} disabled={isRunning}>
+              {isRunning && <Loader2 className="mr-2 h-4 w-4 animate-spin"/>}
               {isRunning ? 'Running...' : (activeTab === 'single' ? 'Run Backtest' : 'Run Optimization')}
             </Button>
           </CardFooter>
         </Card>
       </div>
       <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-         {/* ... Existing Results Display Area (Tabs for Summary, Chart, Trades) ... */}
+        <ResultsDisplay results={backtestResults} error={error} isRunning={isRunning} mode={activeTab} />
       </div>
     </div>
   );
 }
+
+// --- Sub-components for Results Display ---
+
+const ResultsDisplay = ({ results, error, isRunning, mode }: { results: any, error: string | null, isRunning: boolean, mode: string }) => {
+  if (isRunning) {
+    return (
+        <Card className="text-center"><CardContent className="p-6"><div className="flex flex-col items-center gap-4"><Loader2 className="h-8 w-8 animate-spin text-muted-foreground" /><p className="text-muted-foreground">Running backtest...</p></div></CardContent></Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    );
+  }
+
+  if (!results) {
+    return (
+         <Card><CardContent className="p-6"><div className="text-center text-muted-foreground"><BarChart className="mx-auto h-12 w-12"/> <h3 className="mt-4 text-lg font-medium">No results yet</h3><p>Configure your backtest and click 'Run' to see the results.</p></div></CardContent></Card>
+    );
+  }
+  
+  // For optimization, result is a list, for single it's an object. Let's check the best result.
+  const summary = mode === 'optimize' ? results.best_result?.summary : results.summary;
+  const trades = mode === 'optimize' ? results.best_result?.trades : results.trades;
+  const equityCurve = mode === 'optimize' ? results.best_result?.equity_curve : results.equity_curve;
+
+  if (!summary) {
+     return (
+        <Alert variant="destructive"><AlertCircle className="h-4 w-4" /><AlertTitle>Invalid Results</AlertTitle><AlertDescription>The backtest completed but the results format is not recognized.</AlertDescription></Alert>
+     )
+  }
+
+  const equityData = Object.keys(equityCurve || {}).map(date => ({
+      date,
+      equity: equityCurve[date]
+  }));
+
+  return (
+    <Tabs defaultValue="report">
+      <TabsList className="grid w-full grid-cols-3">
+        <TabsTrigger value="report">Report</TabsTrigger>
+        <TabsTrigger value="chart">Chart</TabsTrigger>
+        <TabsTrigger value="trades">Trades</TabsTrigger>
+      </TabsList>
+      <TabsContent value="report">
+        {mode === 'optimize' && results.best_params && (
+            <BestParameters params={results.best_params} />
+        )}
+        <BacktestSummary summary={summary}/>
+      </TabsContent>
+      <TabsContent value="chart">
+          <EquityChart data={equityData} />
+      </TabsContent>
+      <TabsContent value="trades">
+          <TradesTable trades={trades} />
+      </TabsContent>
+    </Tabs>
+  );
+};
+
+const BacktestSummary = ({ summary }: { summary: any }) => {
+    const formatValue = (key: string, value: any) => {
+        if (typeof value !== 'number') return value;
+        if (key.includes('[%]') || key.includes('rate') || key.includes('pct')) return `${value.toFixed(2)}%`;
+        if (key.includes('Capital') || key.includes('Equity') || key.includes('pnl')) return `$${value.toFixed(2)}`;
+        return value;
+    }
+
+    const mainMetrics = {
+        'Start Capital': summary.initial_capital,
+        'End Equity': summary.final_equity,
+        'Total Return [%]': summary.total_return_pct,
+        'Max Drawdown [%]': summary.max_drawdown_pct,
+        'Win Rate [%]': summary.win_rate_pct,
+        'Sharpe Ratio': summary.sharpe_ratio,
+    };
+
+    const tradeMetrics = {
+        'Total Trades': summary.total_trades,
+        'Winning Trades': summary.winning_trades,
+        'Losing Trades': summary.losing_trades,
+    };
+
+    return (
+        <Card>
+            <CardHeader><CardTitle>Backtest Summary</CardTitle></CardHeader>
+            <CardContent className="space-y-6">
+                <div className="space-y-2">
+                    <h3 className="font-semibold">Key Metrics</h3>
+                    <Table>
+                        <TableBody>
+                            {Object.entries(mainMetrics).map(([key, value]) => (
+                                <TableRow key={key}><TableCell className="font-medium">{key}</TableCell><TableCell className="text-right">{formatValue(key, value)}</TableCell></TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+                 <div className="space-y-2">
+                    <h3 className="font-semibold">Trade Stats</h3>
+                    <Table>
+                        <TableBody>
+                             {Object.entries(tradeMetrics).map(([key, value]) => (
+                                <TableRow key={key}><TableCell className="font-medium">{key}</TableCell><TableCell className="text-right">{value}</TableCell></TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
+
+const BestParameters = ({ params }: { params: any }) => (
+    <Card className="mb-4 bg-yellow-50 border-yellow-200">
+        <CardHeader><CardTitle className="text-yellow-900">Best Parameters Found</CardTitle></CardHeader>
+        <CardContent>
+             <Table>
+                <TableHeader>
+                    <TableRow><TableHead>Parameter</TableHead><TableHead className="text-right">Value</TableHead></TableRow>
+                </TableHeader>
+                <TableBody>
+                    {Object.entries(params).map(([key, value]) => (
+                        <TableRow key={key}><TableCell className="font-medium">{key.replace(/_/g, ' ')}</TableCell><TableCell className="text-right">{String(value)}</TableCell></TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </CardContent>
+    </Card>
+)
+
+const EquityChart = ({ data }: { data: any[] }) => (
+    <Card>
+        <CardHeader><CardTitle>Equity Curve</CardTitle></CardHeader>
+        <CardContent>
+            <ResponsiveContainer width="100%" height={300}>
+                <AreaChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => `$${value.toLocaleString()}`} fontSize={12} tickLine={false} axisLine={false}/>
+                    <Tooltip content={({ active, payload, label }) => {
+                        if (active && payload && payload.length) {
+                            return (
+                            <div className="p-2 bg-background border rounded-lg shadow-lg">
+                                <p className="label">{`${label}`}</p>
+                                <p className="intro" style={{color: payload[0].color}}>{`Equity: $${payload[0].value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`}</p>
+                            </div>
+                            );
+                        }
+                        return null;
+                        }}/>
+                    <Legend />
+                    <Area type="monotone" dataKey="equity" stroke="#8884d8" fill="#8884d8" fillOpacity={0.3} />
+                </AreaChart>
+            </ResponsiveContainer>
+        </CardContent>
+    </Card>
+);
+
+const TradesTable = ({ trades }: { trades: any[] }) => (
+    <Card>
+        <CardHeader><CardTitle>Trade Log</CardTitle><CardDescription>{trades.length} trades executed</CardDescription></CardHeader>
+        <CardContent>
+             <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Asset</TableHead>
+                        <TableHead>Direction</TableHead>
+                        <TableHead className="text-right">Shares</TableHead>
+                        <TableHead className="text-right">Price</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {trades.map((trade, index) => (
+                        <TableRow key={index}>
+                            <TableCell>{format(new Date(trade.date), 'yyyy-MM-dd')}</TableCell>
+                            <TableCell>{trade.asset}</TableCell>
+                            <TableCell>
+                                <span className={cn('font-medium', trade.direction === 'BUY' ? 'text-green-600' : 'text-red-600')}>{trade.direction}</span>
+                            </TableCell>
+                            <TableCell className="text-right">{Math.abs(trade.shares)}</TableCell>
+                            <TableCell className="text-right">{`$${trade.price.toFixed(2)}`}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </CardContent>
+    </Card>
+);
