@@ -7,6 +7,7 @@ import yfinance as yf
 from werkzeug.datastructures import FileStorage
 import importlib.util
 import sys
+import json
 
 from backtest_engine import run_backtest
 
@@ -69,21 +70,18 @@ def runbacktest(req: https_fn.Request) -> https_fn.Response:
         if not strategy_id:
             raise ValueError("Strategy ID is missing.")
 
-        initial_capital = float(req_body.get('capital', 100000))
+        initial_capital = float(req_body.get('cash', 100000))
         
         # Strategy-specific parameters
-        strategy_params = {}
-        for key, value in req_body.items():
-            if key.startswith('param_'):
-                param_name = key.replace('param_', '')
-                # Attempt to convert to float, fallback to string if it fails
-                try:
-                    strategy_params[param_name] = float(value)
-                except (ValueError, TypeError):
-                    strategy_params[param_name] = value
+        if 'params' in req_body:
+            strategy_params = json.loads(req_body['params'])
+        else:
+            raise ValueError("Strategy parameters are missing.")
+
 
         # Data source parameters
         data_source = req_body.get('dataSource', 'yahoo')
+        timeframe = req_body.get('timeframe')
         
         # --- Load Data based on the selected source ---
         data = None
@@ -91,8 +89,7 @@ def runbacktest(req: https_fn.Request) -> https_fn.Response:
             if 'csv_file' not in req.files:
                 raise ValueError("CSV file is missing.")
             csv_file: FileStorage = req.files['csv_file']
-            data = pd.read_csv(csv_file.stream, parse_dates=['Date'])
-            data.set_index('Date', inplace=True)
+            data = pd.read_csv(csv_file.stream, parse_dates=True, index_col=0)
 
         elif data_source == 'yahoo':
             ticker = req_body.get('ticker')
@@ -101,11 +98,13 @@ def runbacktest(req: https_fn.Request) -> https_fn.Response:
             if not all([ticker, start_date, end_date]):
                 raise ValueError("Ticker, Start Date, and End Date are required for Yahoo Finance.")
             
-            data = yf.download(ticker, start=start_date, end=end_date)
-            # yfinance returns index as Datetime, which is what the engine expects
-            # data.reset_index(inplace=True)
+            data = yf.download(ticker, start=start_date, end=end_date, interval=timeframe)
 
-        # TODO: Add Polygon.io data source logic here in the future
+        elif data_source == 'polygon':
+             raise NotImplementedError("Polygon.io data source is not yet implemented.")
+
+        elif data_source == 'alpaca':
+             raise NotImplementedError("Alpaca data source is not yet implemented.")
         
         else:
             raise ValueError(f"Unsupported data source: {data_source}")

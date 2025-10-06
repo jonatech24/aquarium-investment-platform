@@ -89,7 +89,7 @@ export function AppSidebar() {
       <SidebarHeader className="border-b">
         <div className="flex items-center gap-2">
           <Logo />
-          <span className="text-lg font-semibold">Aquarium Investing</span>
+          <span className="text-lg font-semibold group-data-[collapsed=icon]:hidden">Aquarium Investing</span>
           <SidebarTrigger className="ml-auto" />
         </div>
       </SidebarHeader>
@@ -100,7 +100,7 @@ export function AppSidebar() {
               <Link href={item.href} legacyBehavior passHref>
                 <SidebarMenuButton isActive={pathname === item.href}>
                   <item.icon />
-                  <span>{item.label}</span>
+                  <span className='group-data-[collapsed=icon]:hidden'>{item.label}</span>
                 </SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
@@ -115,7 +115,7 @@ export function AppSidebar() {
                 <AvatarImage src="https://picsum.photos/seed/user/40/40" />
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
-              <div className="text-left">
+              <div className="text-left group-data-[collapsed=icon]:hidden">
                 <p className="text-sm font-medium">Demo User</p>
                 <p className="text-xs text-muted-foreground">
                   trader@aquarium.com

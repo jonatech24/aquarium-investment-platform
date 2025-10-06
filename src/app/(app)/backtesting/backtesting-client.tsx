@@ -59,7 +59,16 @@ const BACKEND_URL = 'https://aquarium-investment-platform-studio-2799607830-e7b6
 const strategies = [
     { id: 'trend_following', name: 'Trend Following', active: true },
     { id: 'dependency_free_strategy', name: 'Dependency Free Strategy', active: true },
+    { id: 'ma_cross', name: 'Moving Average Crossover', active: true },
+    { id: 'rsi', name: 'RSI Momentum', active: true },
 ];
+
+const timeframes = {
+    yahoo: ['1d', '5d', '1wk', '1mo', '3mo'],
+    polygon: ['1m', '5m', '15m', '30m', '1h', '4h', '1d'],
+    alpaca: ['1m', '5m', '15m', '1h', '1d'],
+};
+
 
 const strategyParamsConfig: Record<
   string,
@@ -75,6 +84,16 @@ const strategyParamsConfig: Record<
     { name: 'Fast MA', defaultValue: 50, min: 10, max: 100, step: 1, description: 'Period for the fast moving average.' },
     { name: 'Slow MA', defaultValue: 200, min: 100, max: 300, step: 1, description: 'Period for the slow moving average.' },
   ],
+   ma_cross: [
+    { name: 'Fast MA', defaultValue: 50, min: 10, max: 100, step: 1, description: 'Period for the fast moving average.' },
+    { name: 'Slow MA', defaultValue: 200, min: 100, max: 300, step: 1, description: 'Period for the slow moving average.' },
+  ],
+  rsi: [
+    { name: 'RSI Period', defaultValue: 14, min: 7, max: 28, step: 1, description: 'Period for the RSI calculation.' },
+    { name: 'Oversold Threshold', defaultValue: 30, min: 20, max: 40, step: 1, description: 'RSI value below which an asset is considered oversold.' },
+    { name: 'Overbought Threshold', defaultValue: 70, min: 60, max: 80, step: 1, description: 'RSI value above which an asset is considered overbought.' },
+  ],
+
 };
 
 const optimizationMetrics = [
@@ -96,6 +115,7 @@ export default function BacktestingClientPage() {
   // Config States
   const [selectedStrategy, setSelectedStrategy] = useState(strategyParam || 'trend_following');
   const [dataSource, setDataSource] = useState('yahoo');
+  const [timeframe, setTimeframe] = useState('1d');
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [startDate, setStartDate] = useState<Date | undefined>(new Date('2023-01-01'));
   const [endDate, setEndDate] = useState<Date | undefined>(new Date('2024-01-01'));
@@ -176,6 +196,7 @@ export default function BacktestingClientPage() {
     formData.append('mode', activeTab);
     formData.append('strategy', selectedStrategy);
     formData.append('dataSource', dataSource);
+    formData.append('timeframe', timeframe);
 
     // Append simulation config from state
     formData.append('cash', simulationConfig.cash.toString());
@@ -281,12 +302,20 @@ export default function BacktestingClientPage() {
                         <Label htmlFor="yahoo">Yahoo Finance</Label>
                       </div>
                       <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="polygon" id="polygon" />
+                        <Label htmlFor="polygon">Polygon</Label>
+                      </div>
+                       <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="alpaca" id="alpaca" />
+                        <Label htmlFor="alpaca">Alpaca</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
                         <RadioGroupItem value="csv" id="csv" />
                         <Label htmlFor="csv">CSV Upload</Label>
                       </div>
                     </RadioGroup>
                   </div>
-                  {dataSource === 'yahoo' && (
+                  {dataSource !== 'csv' && (
                     <div className="grid gap-6">
                       <div className="grid gap-3">
                         <Label htmlFor="ticker">Ticker</Label>
@@ -296,6 +325,17 @@ export default function BacktestingClientPage() {
                           defaultValue="SPY"
                         />
                       </div>
+
+                      <div className="grid gap-3">
+                          <Label htmlFor="timeframe">Timeframe</Label>
+                          <Select value={timeframe} onValueChange={setTimeframe}>
+                              <SelectTrigger id="timeframe"><SelectValue placeholder="Select timeframe" /></SelectTrigger>
+                              <SelectContent>
+                                  {timeframes[dataSource as keyof typeof timeframes].map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+                              </SelectContent>
+                          </Select>
+                      </div>
+
                       <div className="grid grid-cols-2 gap-4">
                         <div className="grid gap-3">
                           <Label htmlFor="start-date">Start Date</Label>
