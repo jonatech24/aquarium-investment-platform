@@ -269,7 +269,98 @@ export default function BacktestingClientPage() {
               <AccordionItem value="data_source">
                 <AccordionTrigger className="text-base font-semibold">Data Source</AccordionTrigger>
                 <AccordionContent className="grid gap-6 pt-4">
-                  {/* ... Existing Data Source UI (RadioGroup, Inputs for Ticker/Dates) ... */}
+                  <div className="grid gap-3">
+                    <Label>Source</Label>
+                    <RadioGroup
+                      value={dataSource}
+                      onValueChange={setDataSource}
+                      className="flex items-center gap-4"
+                    >
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="yahoo" id="yahoo" />
+                        <Label htmlFor="yahoo">Yahoo Finance</Label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="csv" id="csv" />
+                        <Label htmlFor="csv">CSV Upload</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                  {dataSource === 'yahoo' && (
+                    <div className="grid gap-6">
+                      <div className="grid gap-3">
+                        <Label htmlFor="ticker">Ticker</Label>
+                        <Input
+                          id="ticker"
+                          ref={tickerRef}
+                          defaultValue="SPY"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="grid gap-3">
+                          <Label htmlFor="start-date">Start Date</Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'w-full justify-start text-left font-normal',
+                                  !startDate && 'text-muted-foreground'
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {startDate ? format(startDate, 'PPP') : <span>Pick a date</span>}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                mode="single"
+                                selected={startDate}
+                                onSelect={setStartDate}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                        <div className="grid gap-3">
+                          <Label htmlFor="end-date">End Date</Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'w-full justify-start text-left font-normal',
+                                  !endDate && 'text-muted-foreground'
+                                )}
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {endDate ? format(endDate, 'PPP') : <span>Pick a date</span>}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                mode="single"
+                                selected={endDate}
+                                onSelect={setEndDate}
+                                initialFocus
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {dataSource === 'csv' && (
+                    <div className="grid gap-3">
+                      <Label htmlFor="csv-file">CSV File</Label>
+                      <Input
+                        id="csv-file"
+                        type="file"
+                        accept=".csv"
+                        onChange={(e) => setCsvFile(e.target.files ? e.target.files[0] : null)}
+                      />
+                    </div>
+                  )}
                 </AccordionContent>
               </AccordionItem>
 
