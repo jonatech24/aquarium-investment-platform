@@ -1,2 +1,5 @@
-firebase-admin
 firebase-functions
+firebase-admin
+werkzeug
+pandas
+yfinance
