@@ -85,7 +85,7 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader className="border-b">
         <div className="flex items-center gap-2">
           <Logo />
