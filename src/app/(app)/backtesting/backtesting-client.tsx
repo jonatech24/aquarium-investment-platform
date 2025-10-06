@@ -380,12 +380,12 @@ export default function BacktestingClientPage() {
                         <div key={param.name} className="grid gap-3">
                            <div className="flex items-center justify-between">
                              <Label htmlFor={`single-${param.name}`}>{param.name.replace(/_/g, ' ')}</Label>
-                             <UITooltipProvider>
+                             <TooltipProvider>
                               <UITooltip>
                                 <TooltipTrigger asChild><Info className="h-4 w-4 text-muted-foreground"/></TooltipTrigger>
                                 <TooltipContent><p>{param.description}</p></TooltipContent>
                               </UITooltip>
-                            </UITooltipProvider>
+                            </TooltipProvider>
                            </div>
                           <Input id={`single-${param.name}`} type="number" value={singleParams[param.name] || ''} onChange={e => handleSingleParamChange(param.name, e.target.value)} step={param.step}/>
                         </div>
