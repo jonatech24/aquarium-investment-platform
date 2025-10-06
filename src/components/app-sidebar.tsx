@@ -23,6 +23,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarTrigger,
   SidebarFooter,
 } from '@/components/ui/sidebar';
 import { Logo } from './logo';
@@ -89,6 +90,7 @@ export function AppSidebar() {
         <div className="flex items-center gap-2">
           <Logo />
           <span className="text-lg font-semibold">Aquarium Investing</span>
+          <SidebarTrigger className="ml-auto" />
         </div>
       </SidebarHeader>
       <SidebarContent>
