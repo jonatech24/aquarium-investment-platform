@@ -53,15 +53,12 @@ import { Calendar } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { strategies } from '@/lib/strategies';
 
 
 // --- CONFIGURATION ---
 const BACKEND_URL = 'https://aquarium-investment-platform-studio-2799607830-e7b65.us-east4.hosted.app/';
 
-const strategies = [
-    { id: 'trend_following', name: 'Trend Following', active: true },
-    { id: 'dependency_free_strategy', name: 'Dependency Free Strategy', active: true },
-];
 
 const strategyParamsConfig: Record<
   string,
@@ -251,7 +248,7 @@ export default function BacktestingClientPage() {
                       <Select value={selectedStrategy} onValueChange={setSelectedStrategy}>
                         <SelectTrigger id="strategy"><SelectValue placeholder="Select strategy" /></SelectTrigger>
                         <SelectContent>
-                          {strategies.map(s => <SelectItem key={s.id} value={s.id} disabled={!s.active}>{s.name}</SelectItem>)}
+                          {strategies.map(s => <SelectItem key={s.id} value={s.id} disabled={s.status !== 'active'}>{s.name}</SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
@@ -262,11 +259,13 @@ export default function BacktestingClientPage() {
               <AccordionItem value="data_source">
                 <AccordionTrigger className="text-base font-semibold">Data Source</AccordionTrigger>
                 <AccordionContent className="grid gap-6 pt-4">
-                  <RadioGroup value={dataSource} onValueChange={setDataSource} className="flex items-center gap-4">
+                  <RadioGroup value={dataSource} onValueChange={setDataSource} className="grid grid-cols-2 gap-4">
                     <div className="flex items-center space-x-2"><RadioGroupItem value="yahoo" id="yahoo" /><Label htmlFor="yahoo">Yahoo Finance</Label></div>
+                    <div className="flex items-center space-x-2"><RadioGroupItem value="alpaca" id="alpaca" /><Label htmlFor="alpaca">Alpaca</Label></div>
+                    <div className="flex items-center space-x-2"><RadioGroupItem value="polygon" id="polygon" /><Label htmlFor="polygon">Polygon</Label></div>
                     <div className="flex items-center space-x-2"><RadioGroupItem value="csv" id="csv" /><Label htmlFor="csv">CSV Upload</Label></div>
                   </RadioGroup>
-                  {dataSource === 'yahoo' && (
+                  {dataSource !== 'csv' && (
                     <div className="grid gap-6 pt-4">
                       <div className="grid gap-3">
                         <Label htmlFor="ticker">Ticker</Label>
