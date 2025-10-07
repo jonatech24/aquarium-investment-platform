@@ -2,10 +2,10 @@
 import StrategyDetailClient from './strategy-detail-client';
 
 // Define the shape of the props that Next.js will pass to the page
-type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+// type Props = {
+//   params: { id: string };
+//   searchParams: { [key: string]: string | string[] | undefined };
+// };
 
 const strategyCodeById: Record<string, string> = {
     gapandgo: `
@@ -20,17 +20,17 @@ class GapAndGoStrategy(bt.Strategy):
         self.opening_price = None
 
     def prenext(self):
-        # Store opening price on the first bar of the day
+        // Store opening price on the first bar of the day
         if not self.opening_price or self.data.datetime.date(0) != self.data.datetime.date(-1):
             self.opening_price = self.data.open[0]
 
     def next(self):
-        # Check for gap up on the first bar of the day
+        // Check for gap up on the first bar of the day
         if self.data.open[0] > self.data.close[-1] * (1 + self.p.gap_threshold):
             if not self.position:
                 self.buy() // Enter long position
 
-        # Exit position after a few bars (e.g., 60 minutes)
+        // Exit position after a few bars (e.g., 60 minutes)
         if self.position and len(self) > (self.bar_executed + 60):
             self.sell()
 `,
@@ -123,8 +123,9 @@ export async function generateStaticParams() {
 }
 
 // Apply the defined Props type to the component
-export default function StrategyDetailPage({ params }: Props) {
-  const { id } = params;
+export default function StrategyDetailPage({ params }: { params: any }) {
+  const { id } = params as { id: string }; // Cast for safety inside the component
+
   const initialCode = strategyCodeById[id] || 'Strategy code not found.';
 
   // Render the client component, passing the data it needs
