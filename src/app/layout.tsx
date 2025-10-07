@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import { AppSidebar } from '@/components/app-sidebar';
-import { Header } from '@/components/header';
-import { SidebarProvider } from '@/components/ui/sidebar';
 
 export const metadata: Metadata = {
   title: 'Aquarium Investing Platform',
@@ -26,15 +23,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <SidebarProvider>
-          <AppSidebar />
-          <div className="flex flex-col flex-1">
-            <Header />
-            <main className="flex-1 p-4 bg-background sm:p-6 lg:p-8">
-              {children}
-            </main>
-          </div>
-        </SidebarProvider>
+        {children}
         <Toaster />
       </body>
     </html>
