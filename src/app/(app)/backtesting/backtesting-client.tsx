@@ -569,7 +569,8 @@ const EquityChart = ({ data }: { data: any[] }) => (
                             return (
                             <div className="p-2 bg-background border rounded-lg shadow-lg">
                                 <p className="label">{`${label}`}</p>
-                                <p className="intro" style={{color: payload[0].color}}>{`Equity: $${payload[0].value.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`}</p>
+                                <p className="intro" style={{color: payload[0].color}}>{`Equity: $${Number(payload[0].value).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`}</p>
+
                             </div>
                             );
                         }
