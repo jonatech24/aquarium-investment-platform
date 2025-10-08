@@ -76,7 +76,36 @@ const strategyParamsConfig: Record<
   ],
 };
 
-const timeframes = ['1d', '1h', '4h'];
+const timeframeOptions: Record<string, { label: string; value: string }[]> = {
+  yahoo: [
+    { label: '1m', value: '1m' },
+    { label: '5m', value: '5m' },
+    { label: '15m', value: '15m' },
+    { label: '30m', value: '30m' },
+    { label: '1h', value: '1h' },
+    { label: '4h', value: '4h' },
+    { label: '1d', value: '1d' },
+    { label: '1w', value: '1wk' },
+    { label: '1M', value: '1mo' },
+  ],
+  alpaca: [
+    { label: '1m', value: '1Min' },
+    { label: '5m', value: '5Min' },
+    { label: '15m', value: '15Min' },
+    { label: '1h', value: '1H' },
+    { label: '1d', value: '1D' },
+  ],
+  polygon: [
+    { label: '1m', value: '1-minute' },
+    { label: '5m', value: '5-minute' },
+    { label: '15m', value: '15-minute' },
+    { label: '1h', value: '1-hour' },
+    { label: '1d', value: '1-day' },
+    { label: '1w', value: '1-week' },
+    { label: '1M', value: '1-month' },
+  ],
+};
+
 const optimizationMetrics = [
   'SQN', 'Return [%]', 'Sharpe Ratio', 'Sortino Ratio', 'Calmar Ratio', 'Max. Drawdown [%]', 'Win Rate [%]'
 ];
@@ -98,7 +127,9 @@ export default function BacktestingClientPage() {
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [startDate, setStartDate] = useState<Date | undefined>(new Date('2023-01-01'));
   const [endDate, setEndDate] = useState<Date | undefined>(new Date('2024-01-01'));
-  const [timeframe, setTimeframe] = useState('1d');
+  
+  const availableTimeframes = timeframeOptions[dataSource] || [];
+  const [timeframe, setTimeframe] = useState(availableTimeframes[0]?.value || '1d');
 
   // Simulation Config
   const [simulationConfig, setSimulationConfig] = useState({
@@ -132,6 +163,13 @@ export default function BacktestingClientPage() {
   useEffect(() => {
     if (strategyParam) setSelectedStrategy(strategyParam);
   }, [strategyParam]);
+
+  useEffect(() => {
+    const currentValidTimeframes = timeframeOptions[dataSource] || [];
+    if (!currentValidTimeframes.some(tf => tf.value === timeframe)) {
+      setTimeframe(currentValidTimeframes[0]?.value || '');
+    }
+  }, [dataSource, timeframe]);
 
   useEffect(() => {
     const initialSingleParams: Record<string, number> = {};
@@ -274,10 +312,10 @@ export default function BacktestingClientPage() {
                       <div className="grid grid-cols-2 gap-4">
                          <div className="grid gap-3">
                             <Label htmlFor="timeframe">Timeframe</Label>
-                            <Select value={timeframe} onValueChange={setTimeframe}>
+                            <Select value={timeframe} onValueChange={setTimeframe} disabled={dataSource === 'csv'}>
                                 <SelectTrigger><SelectValue/></SelectTrigger>
                                 <SelectContent>
-                                {timeframes.map(tf => <SelectItem key={tf} value={tf}>{tf}</SelectItem>)}
+                                {availableTimeframes.map(tf => <SelectItem key={tf.value} value={tf.value}>{tf.label}</SelectItem>)}
                                 </SelectContent>
                             </Select>
                         </div>
