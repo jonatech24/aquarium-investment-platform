@@ -1,0 +1,452 @@
+[debug] [2025-10-08T16:48:50.658Z] ----------------------------------------------------------------------
+[debug] [2025-10-08T16:48:50.662Z] Command:       /nix/store/ws50yvm6vzlzf7jzz6n7xh4szddrack1-nodejs-20.19.1/bin/node /nix/store/0yk9nzw3ibqkjc4dy03f3v9nf5rxqylc-firebase-tools-14.18.0/lib/node_modules/firebase-tools/lib/bin/firebase.js emulators:start
+[debug] [2025-10-08T16:48:50.663Z] CLI Version:   14.18.0
+[debug] [2025-10-08T16:48:50.664Z] Platform:      linux
+[debug] [2025-10-08T16:48:50.664Z] Node Version:  v20.19.1
+[debug] [2025-10-08T16:48:50.664Z] Time:          Wed Oct 08 2025 16:48:50 GMT+0000 (Coordinated Universal Time)
+[debug] [2025-10-08T16:48:50.665Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-10-08T16:48:51.179Z] No OAuth tokens found
+[debug] [2025-10-08T16:48:51.180Z] No OAuth tokens found
+[error] Failed to fetch Firebase Project from current Studio Workspace: Unable to refresh auth: not yet authenticated.
+[debug] [2025-10-08T16:48:51.186Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/userinfo.email"]
+[debug] [2025-10-08T16:50:02.326Z] Running auto auth
+[info] i  emulators: Starting emulators: functions, hosting, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions, hosting, extensions"}}
+[debug] [2025-10-08T16:50:02.372Z] No OAuth tokens found
+[debug] [2025-10-08T16:50:02.374Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/studio-2799607830-e7b65 [none]
+[debug] [2025-10-08T16:50:02.542Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/studio-2799607830-e7b65 200
+[debug] [2025-10-08T16:50:02.543Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/studio-2799607830-e7b65 {"projectNumber":"500592193187","projectId":"studio-2799607830-e7b65","lifecycleState":"ACTIVE","name":"Firebase app","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2025-10-01T16:15:13.070924Z"}
+[warn] ⚠  hub: Error when trying to check port 4400 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:4400 {"metadata":{"emulator":{"name":"hub"},"message":"Error when trying to check port 4400 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:4400"}}
+[warn] ⚠  hub: Port 4400 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"hub"},"message":"Port 4400 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  hub: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"hub"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  ui: Error when trying to check port 4000 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:4000 {"metadata":{"emulator":{"name":"ui"},"message":"Error when trying to check port 4000 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:4000"}}
+[warn] ⚠  ui: Port 4000 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"ui"},"message":"Port 4000 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  ui: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"ui"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  logging: Error when trying to check port 4500 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:4500 {"metadata":{"emulator":{"name":"logging"},"message":"Error when trying to check port 4500 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:4500"}}
+[warn] ⚠  logging: Port 4500 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"logging"},"message":"Port 4500 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  logging: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"logging"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  hosting: Error when trying to check port 5000 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Error when trying to check port 5000 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:5000"}}
+[warn] ⚠  hosting: Port 5000 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"hosting"},"message":"Port 5000 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  hosting: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"hosting"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[debug] [2025-10-08T16:50:02.564Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2025-10-08T16:50:02.574Z] Emulator locator file path: /tmp/hub-studio-2799607830-e7b65.json
+[debug] [2025-10-08T16:50:02.574Z] [hub] writing locator at /tmp/hub-studio-2799607830-e7b65.json
+[debug] [2025-10-08T16:50:02.593Z] No OAuth tokens found
+[debug] [2025-10-08T16:50:02.594Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65 [none]
+[debug] [2025-10-08T16:50:02.810Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65 200
+[debug] [2025-10-08T16:50:02.811Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65 {"projectId":"studio-2799607830-e7b65","projectNumber":"500592193187","displayName":"Firebase app","name":"projects/studio-2799607830-e7b65","resources":{"hostingSite":"studio-2799607830-e7b65"},"state":"ACTIVE","etag":"1_fdd97b70-a0fe-4821-83a8-f1c7a3149f57"}
+[debug] [2025-10-08T16:50:11.485Z] defaultcredentials: no credential available.
+[debug] [2025-10-08T16:50:11.486Z] No OAuth tokens found
+[debug] [2025-10-08T16:50:11.486Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites pageToken=&pageSize=10
+[debug] [2025-10-08T16:50:11.702Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites 200
+[debug] [2025-10-08T16:50:11.703Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites {"sites":[{"name":"projects/studio-2799607830-e7b65/sites/studio-2799607830-e7b65","defaultUrl":"https://studio-2799607830-e7b65.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-10-08T16:50:11.704Z] No OAuth tokens found
+[debug] [2025-10-08T16:50:11.705Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites 
+[debug] [2025-10-08T16:50:11.819Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites 200
+[debug] [2025-10-08T16:50:11.819Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites {"sites":[{"name":"projects/studio-2799607830-e7b65/sites/studio-2799607830-e7b65","defaultUrl":"https://studio-2799607830-e7b65.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-10-08T16:50:11.820Z] No OAuth tokens found
+[debug] [2025-10-08T16:50:11.821Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/webApps/-/config [none]
+[debug] [2025-10-08T16:50:12.089Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/webApps/-/config 200
+[debug] [2025-10-08T16:50:12.089Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/webApps/-/config {"projectId":"studio-2799607830-e7b65","appId":"1:500592193187:web:b16915c560af748b601916","storageBucket":"studio-2799607830-e7b65.firebasestorage.app","apiKey":"AIzaSyA4AeJrKsk8K-VP19JvE9ozjXwE_v8Mw0I","authDomain":"studio-2799607830-e7b65.firebaseapp.com","messagingSenderId":"500592193187","projectNumber":"500592193187","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2025-10-08T16:51:14.294Z] [web frameworks] effective firebase.json:  {
+  "hosting": [
+    {
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "site": "studio-2799607830-e7b65",
+      "rewrites": [
+        {
+          "source": "**",
+          "function": {
+            "functionId": "ssrstudio2799607830e7b6",
+            "region": "us-central1",
+            "pinTag": true
+          }
+        }
+      ],
+      "redirects": [],
+      "headers": [
+        {
+          "source": "**/*.[jt]s",
+          "headers": [
+            {
+              "key": "Set-Cookie",
+              "value": "__FIREBASE_DEFAULTS__=eyJjb25maWciOnsicHJvamVjdElkIjoic3R1ZGlvLTI3OTk2MDc4MzAtZTdiNjUiLCJhcHBJZCI6IjE6NTAwNTkyMTkzMTg3OndlYjpiMTY5MTVjNTYwYWY3NDhiNjAxOTE2Iiwic3RvcmFnZUJ1Y2tldCI6InN0dWRpby0yNzk5NjA3ODMwLWU3YjY1LmZpcmViYXNlc3RvcmFnZS5hcHAiLCJhcGlLZXkiOiJBSXphU3lBNEFlSnJLc2s4Sy1WUDE5SnZFOW96alh3RV92OE13MEkiLCJhdXRoRG9tYWluIjoic3R1ZGlvLTI3OTk2MDc4MzAtZTdiNjUuZmlyZWJhc2VhcHAuY29tIiwibWVzc2FnaW5nU2VuZGVySWQiOiI1MDA1OTIxOTMxODciLCJwcm9qZWN0TnVtYmVyIjoiNTAwNTkyMTkzMTg3IiwidmVyc2lvbiI6IjIifSwiX2F1dGhUb2tlblN5bmNVUkwiOiIvX19zZXNzaW9uIn0; SameSite=Strict; Expires=2027-09-03T03:31:14.294Z; Path=/;"
+            }
+          ]
+        }
+      ],
+      "cleanUrls": true,
+      "public": ".firebase/studio-2799607830-e7b65/hosting",
+      "webFramework": "next_ssr"
+    }
+  ],
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "venv",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "runtime": "python311"
+    },
+    {
+      "source": ".firebase/studio-2799607830-e7b65/functions",
+      "codebase": "firebase-frameworks-studio-2799607830-e7b65"
+    }
+  ]
+}
+[debug] [2025-10-08T16:51:14.393Z] [Extensions] Started Extensions emulator, this is a noop.
+[warn] ⚠  functions: Error when trying to check port 5001 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:5001 {"metadata":{"emulator":{"name":"functions"},"message":"Error when trying to check port 5001 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:5001"}}
+[warn] ⚠  functions: Port 5001 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"functions"},"message":"Port 5001 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  functions: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"functions"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  eventarc: Error when trying to check port 9299 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:9299 {"metadata":{"emulator":{"name":"eventarc"},"message":"Error when trying to check port 9299 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:9299"}}
+[warn] ⚠  eventarc: Port 9299 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"eventarc"},"message":"Port 9299 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  eventarc: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"eventarc"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  tasks: Error when trying to check port 9499 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:9499 {"metadata":{"emulator":{"name":"tasks"},"message":"Error when trying to check port 9499 on ::1: Error: listen EADDRNOTAVAIL: address not available ::1:9499"}}
+[warn] ⚠  tasks: Port 9499 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"tasks"},"message":"Port 9499 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  tasks: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"tasks"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[debug] [2025-10-08T16:51:14.497Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] ⚠  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, firestore, database, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: apphosting, auth, firestore, database, pubsub, storage, dataconnect"}}
+[warn] ⚠  functions: Application Default Credentials detected. Non-emulated services will access production using these credentials. Be careful! {"metadata":{"emulator":{"name":"functions"},"message":"Application Default Credentials detected. Non-emulated services will access production using these credentials. Be careful!"}}
+[debug] [2025-10-08T16:51:14.620Z] No OAuth tokens found
+[debug] [2025-10-08T16:51:14.620Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/adminSdkConfig [none]
+[debug] [2025-10-08T16:51:14.864Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/adminSdkConfig 200
+[debug] [2025-10-08T16:51:14.865Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/adminSdkConfig {"projectId":"studio-2799607830-e7b65","storageBucket":"studio-2799607830-e7b65.firebasestorage.app"}
+[debug] [2025-10-08T16:51:14.908Z] No OAuth tokens found
+[debug] [2025-10-08T16:51:14.915Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites 
+[debug] [2025-10-08T16:51:15.134Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites 200
+[debug] [2025-10-08T16:51:15.138Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/sites {"sites":[{"name":"projects/studio-2799607830-e7b65/sites/studio-2799607830-e7b65","defaultUrl":"https://studio-2799607830-e7b65.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2025-10-08T16:51:15.139Z] No OAuth tokens found
+[debug] [2025-10-08T16:51:15.139Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/webApps/-/config [none]
+[debug] [2025-10-08T16:51:15.349Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/webApps/-/config 200
+[debug] [2025-10-08T16:51:15.350Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/studio-2799607830-e7b65/webApps/-/config {"projectId":"studio-2799607830-e7b65","appId":"1:500592193187:web:b16915c560af748b601916","storageBucket":"studio-2799607830-e7b65.firebasestorage.app","apiKey":"AIzaSyA4AeJrKsk8K-VP19JvE9ozjXwE_v8Mw0I","authDomain":"studio-2799607830-e7b65.firebaseapp.com","messagingSenderId":"500592193187","projectNumber":"500592193187","version":"2"}
+[info] i  hosting[studio-2799607830-e7b65]: Serving hosting files from: .firebase/studio-2799607830-e7b65/hosting {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: .firebase/studio-2799607830-e7b65/hosting"}}
+[info] ✔  hosting[studio-2799607830-e7b65]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: http://127.0.0.1:5000"}}
+[debug] [2025-10-08T16:51:15.434Z] [Extensions] Connecting Extensions emulator, this is a noop.
+[info] i  functions: Watching "/home/user/studio/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/home/user/studio/functions\" for Cloud Functions..."}}
+[debug] [2025-10-08T16:51:15.456Z] Customer code is not Node
+[debug] [2025-10-08T16:51:15.458Z] Validating python source
+[debug] [2025-10-08T16:51:15.458Z] Building python source
+[debug] [2025-10-08T16:51:15.464Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-08T16:51:15.469Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-10-08T16:51:15.838Z] stdout: /home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions
+
+[debug] [2025-10-08T16:51:15.856Z] Running admin server with args: ["python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""] and env: {"GCLOUD_PROJECT":"studio-2799607830-e7b65","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"studio-2799607830-e7b65","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"studio-2799607830-e7b65.firebasestorage.app\",\"projectId\":\"studio-2799607830-e7b65\"}","ADMIN_PORT":"8081"} in /home/user/studio/functions
+[debug] [2025-10-08T16:51:15.859Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""]
+[debug] [2025-10-08T16:51:18.319Z] Functions emulator received unknown request at path /
+[debug] [2025-10-08T16:51:19.324Z] Eventarc emulator received unknown request at path / {"metadata":{"emulator":{"name":"eventarc"},"message":"Eventarc emulator received unknown request at path /"}}
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [08/Oct/2025 16:51:25] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: User code failed to load. Cannot determine backend specification. Timeout after 10000. See https://firebase.google.com/docs/functions/tips#avoid_deployment_timeouts_during_initialization' {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: User code failed to load. Cannot determine backend specification. Timeout after 10000. See https://firebase.google.com/docs/functions/tips#avoid_deployment_timeouts_during_initialization'"}}
+[info] i  functions: Watching "/home/user/studio/.firebase/studio-2799607830-e7b65/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/home/user/studio/.firebase/studio-2799607830-e7b65/functions\" for Cloud Functions..."}}
+[debug] [2025-10-08T16:51:26.035Z] Validating nodejs source
+[debug] [2025-10-08T16:51:27.465Z] > [functions] package.json contents: {
+  "main": "server.js",
+  "dependencies": {
+    "firebase-frameworks": "^0.11.0",
+    "firebase-functions": "^6.0.1",
+    "firebase-admin": "^11.11.1"
+  },
+  "engines": {
+    "node": "20"
+  }
+}
+[debug] [2025-10-08T16:51:27.465Z] Building nodejs source
+[debug] [2025-10-08T16:51:27.466Z] Failed to find version of module node: reached end of search path /home/user/studio/.firebase/studio-2799607830-e7b65/functions/node_modules
+[info] ✔  functions: Using node@20 from host. 
+[info] i  functions: Loaded environment variables from .env, .env.local. 
+[debug] [2025-10-08T16:51:27.555Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-08T16:51:27.558Z] Found firebase-functions binary at '/home/user/studio/.firebase/studio-2799607830-e7b65/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8668
+
+[debug] [2025-10-08T16:51:28.593Z] Got response from /__/functions.yaml {"endpoints":{"ssrstudio2799607830e7b6":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"ssrstudio2799607830e7b6"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[warn] ⚠  functions: Application Default Credentials detected. Non-emulated services will access production using these credentials. Be careful! {"metadata":{"emulator":{"name":"functions"},"message":"Application Default Credentials detected. Non-emulated services will access production using these credentials. Be careful!"}}
+[info] ✔  functions: Loaded functions definitions from source: ssrstudio2799607830e7b6. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: ssrstudio2799607830e7b6."}}
+[info] ✔  functions[us-central1-ssrstudio2799607830e7b6]: http function initialized (http://127.0.0.1:5001/studio-2799607830-e7b65/us-central1/ssrstudio2799607830e7b6). {"metadata":{"emulator":{"name":"functions"},"message":"http function initialized (http://127.0.0.1:5001/studio-2799607830-e7b65/us-central1/ssrstudio2799607830e7b6)."}}
+[debug] [2025-10-08T16:51:29.094Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: connect ECONNREFUSED 127.0.0.1:40001. If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────┬────────────────┬──────────────────────────────────┐
+│ Emulator   │ Host:Port      │ View in Emulator UI              │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Functions  │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions  │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Hosting    │ 127.0.0.1:5000 │ n/a                              │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Extensions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/extensions │
+└────────────┴────────────────┴──────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4400
+  Other reserved ports: 4500
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:51:43 +0000] "GET / HTTP/1.1" 307 - "https://studio.firebase.google.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:51:43 +0000] \"GET / HTTP/1.1\" 307 - \"https://studio.firebase.google.com/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:01 +0000] "GET /dashboard HTTP/1.1" 200 - "https://studio.firebase.google.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:01 +0000] \"GET /dashboard HTTP/1.1\" 200 - \"https://studio.firebase.google.com/\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:01 +0000] "GET /_next/static/css/app/layout.css?v=1759942321188 HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:01 +0000] \"GET /_next/static/css/app/layout.css?v=1759942321188 HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] "GET /_next/static/chunks/webpack.js?v=1759942321188 HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] \"GET /_next/static/chunks/webpack.js?v=1759942321188 HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] "GET /_next/static/chunks/app-pages-internals.js HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] \"GET /_next/static/chunks/app-pages-internals.js HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] "GET /_next/static/chunks/app/layout.js HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] \"GET /_next/static/chunks/app/layout.js HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] "GET /_next/static/chunks/app/(app)/layout.js HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] \"GET /_next/static/chunks/app/(app)/layout.js HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] "GET /_next/static/chunks/app/(app)/dashboard/page.js HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] \"GET /_next/static/chunks/app/(app)/dashboard/page.js HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] "GET /_next/static/chunks/main-app.js?v=1759942321188 HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:02 +0000] \"GET /_next/static/chunks/main-app.js?v=1759942321188 HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:05 +0000] "POST /__nextjs_original-stack-frames HTTP/1.1" 400 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:05 +0000] \"POST /__nextjs_original-stack-frames HTTP/1.1\" 400 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:05 +0000] "POST /__nextjs_original-stack-frames HTTP/1.1" 400 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:05 +0000] \"POST /__nextjs_original-stack-frames HTTP/1.1\" 400 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:16:52:05 +0000] "GET /__nextjs_font/geist-latin.woff2 HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:16:52:05 +0000] \"GET /__nextjs_font/geist-latin.woff2 HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:17:04:18 +0000] "GET /dashboard?_rsc=1y22l HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:17:04:18 +0000] \"GET /dashboard?_rsc=1y22l HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[info] i  hosting: 127.0.0.1 - - [08/Oct/2025:17:04:18 +0000] "GET /_next/static/css/app/layout.css?v=1759943058620 HTTP/1.1" 200 - "https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36" {"metadata":{"emulator":{"name":"hosting"},"message":"127.0.0.1 - - [08/Oct/2025:17:04:18 +0000] \"GET /_next/static/css/app/layout.css?v=1759943058620 HTTP/1.1\" 200 - \"https://5000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev/dashboard\" \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\""}}
+[debug] [2025-10-08T17:29:29.968Z] File /home/user/studio/functions/main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /home/user/studio/functions/main.py changed, reloading triggers"}}
+[debug] [2025-10-08T17:29:30.975Z] Customer code is not Node
+[debug] [2025-10-08T17:29:30.976Z] Validating python source
+[debug] [2025-10-08T17:29:30.976Z] Building python source
+[debug] [2025-10-08T17:29:30.979Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-08T17:29:30.988Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-10-08T17:29:31.178Z] stdout: /home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions
+
+[debug] [2025-10-08T17:29:31.195Z] Running admin server with args: ["python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""] and env: {"GCLOUD_PROJECT":"studio-2799607830-e7b65","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"studio-2799607830-e7b65","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"studio-2799607830-e7b65.firebasestorage.app\",\"projectId\":\"studio-2799607830-e7b65\"}","ADMIN_PORT":"8081"} in /home/user/studio/functions
+[debug] [2025-10-08T17:29:31.201Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+Press CTRL+C to quit
+
+[debug] [2025-10-08T17:29:36.697Z] File /home/user/studio/functions/__pycache__/main.cpython-311.pyc changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /home/user/studio/functions/__pycache__/main.cpython-311.pyc changed, reloading triggers"}}
+[debug] [2025-10-08T17:29:37.698Z] Customer code is not Node
+[debug] [2025-10-08T17:29:37.700Z] Validating python source
+[debug] [2025-10-08T17:29:37.702Z] Building python source
+[debug] [2025-10-08T17:29:37.711Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-08T17:29:37.745Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-10-08T17:29:37.939Z] stdout: /home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions
+
+[debug] [2025-10-08T17:29:37.960Z] Running admin server with args: ["python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""] and env: {"GCLOUD_PROJECT":"studio-2799607830-e7b65","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"studio-2799607830-e7b65","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"studio-2799607830-e7b65.firebasestorage.app\",\"projectId\":\"studio-2799607830-e7b65\"}","ADMIN_PORT":"8082"} in /home/user/studio/functions
+[debug] [2025-10-08T17:29:37.961Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8082
+
+[error] Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [08/Oct/2025 17:29:41] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: User code failed to load. Cannot determine backend specification. Timeout after 10000. See https://firebase.google.com/docs/functions/tips#avoid_deployment_timeouts_during_initialization' {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: User code failed to load. Cannot determine backend specification. Timeout after 10000. See https://firebase.google.com/docs/functions/tips#avoid_deployment_timeouts_during_initialization'"}}
+[error] 127.0.0.1 - - [08/Oct/2025 17:29:41] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2025-10-08T17:29:41.544Z] Got response from /__/functions.yaml endpoints:
+  runbacktest:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: runbacktest
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [08/Oct/2025 17:29:41] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] ✔  functions: Loaded functions definitions from source: runbacktest. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: runbacktest."}}
+[info] ✔  functions[us-central1-runbacktest]: http function initialized (http://127.0.0.1:5001/studio-2799607830-e7b65/us-central1/runbacktest). {"metadata":{"emulator":{"name":"functions"},"message":"http function initialized (http://127.0.0.1:5001/studio-2799607830-e7b65/us-central1/runbacktest)."}}
+[debug] [2025-10-08T17:35:54.171Z] File /home/user/studio/functions/main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /home/user/studio/functions/main.py changed, reloading triggers"}}
+[debug] [2025-10-08T17:35:55.172Z] Customer code is not Node
+[debug] [2025-10-08T17:35:55.173Z] Validating python source
+[debug] [2025-10-08T17:35:55.175Z] Building python source
+[debug] [2025-10-08T17:35:55.186Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-08T17:35:55.190Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-10-08T17:35:55.303Z] stdout: /home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions
+
+[debug] [2025-10-08T17:35:55.320Z] Running admin server with args: ["python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""] and env: {"GCLOUD_PROJECT":"studio-2799607830-e7b65","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"studio-2799607830-e7b65","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"studio-2799607830-e7b65.firebasestorage.app\",\"projectId\":\"studio-2799607830-e7b65\"}","ADMIN_PORT":"8081"} in /home/user/studio/functions
+[debug] [2025-10-08T17:35:55.320Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+Press CTRL+C to quit
+
+[debug] [2025-10-08T17:35:56.422Z] File /home/user/studio/functions/__pycache__/main.cpython-311.pyc changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /home/user/studio/functions/__pycache__/main.cpython-311.pyc changed, reloading triggers"}}
+[debug] [2025-10-08T17:35:57.427Z] Customer code is not Node
+[debug] [2025-10-08T17:35:57.429Z] Validating python source
+[debug] [2025-10-08T17:35:57.433Z] Building python source
+[debug] [2025-10-08T17:35:57.439Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-08T17:35:57.448Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-10-08T17:35:57.660Z] stdout: /home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions
+
+[debug] [2025-10-08T17:35:57.693Z] Running admin server with args: ["python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""] and env: {"GCLOUD_PROJECT":"studio-2799607830-e7b65","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"studio-2799607830-e7b65","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"studio-2799607830-e7b65.firebasestorage.app\",\"projectId\":\"studio-2799607830-e7b65\"}","ADMIN_PORT":"8082"} in /home/user/studio/functions
+[debug] [2025-10-08T17:35:57.696Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""]
+[error] 127.0.0.1 - - [08/Oct/2025 17:35:59] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2025-10-08T17:35:59.199Z] Got response from /__/functions.yaml endpoints:
+  runbacktest:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: runbacktest
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [08/Oct/2025 17:35:59] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] ✔  functions: Loaded functions definitions from source: runbacktest. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: runbacktest."}}
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8082
+
+[error] Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [08/Oct/2025 17:36:01] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2025-10-08T17:36:01.252Z] Got response from /__/functions.yaml endpoints:
+  runbacktest:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: runbacktest
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [08/Oct/2025 17:36:01] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] ✔  functions: Loaded functions definitions from source: runbacktest. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: runbacktest."}}
+[debug] [2025-10-08T17:45:48.383Z] File /home/user/studio/functions/main.py changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /home/user/studio/functions/main.py changed, reloading triggers"}}
+[debug] [2025-10-08T17:45:49.390Z] Customer code is not Node
+[debug] [2025-10-08T17:45:49.391Z] Validating python source
+[debug] [2025-10-08T17:45:49.392Z] Building python source
+[debug] [2025-10-08T17:45:49.395Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-08T17:45:49.396Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-10-08T17:45:49.506Z] stdout: /home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions
+
+[debug] [2025-10-08T17:45:49.522Z] Running admin server with args: ["python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""] and env: {"GCLOUD_PROJECT":"studio-2799607830-e7b65","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"studio-2799607830-e7b65","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"studio-2799607830-e7b65.firebasestorage.app\",\"projectId\":\"studio-2799607830-e7b65\"}","ADMIN_PORT":"8081"} in /home/user/studio/functions
+[debug] [2025-10-08T17:45:49.524Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""]
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8081
+Press CTRL+C to quit
+
+[debug] [2025-10-08T17:45:50.700Z] File /home/user/studio/functions/__pycache__/main.cpython-311.pyc changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /home/user/studio/functions/__pycache__/main.cpython-311.pyc changed, reloading triggers"}}
+[debug] [2025-10-08T17:45:51.704Z] Customer code is not Node
+[debug] [2025-10-08T17:45:51.706Z] Validating python source
+[debug] [2025-10-08T17:45:51.706Z] Building python source
+[debug] [2025-10-08T17:45:51.712Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-10-08T17:45:51.719Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","-c","\"import firebase_functions; import os; print(os.path.dirname(firebase_functions.__file__))\""]
+[debug] [2025-10-08T17:45:51.938Z] stdout: /home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions
+
+[debug] [2025-10-08T17:45:51.965Z] Running admin server with args: ["python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""] and env: {"GCLOUD_PROJECT":"studio-2799607830-e7b65","K_REVISION":"1","PORT":"80","GOOGLE_CLOUD_QUOTA_PROJECT":"studio-2799607830-e7b65","FUNCTIONS_EMULATOR":"true","TZ":"UTC","FIREBASE_DEBUG_MODE":"true","FIREBASE_DEBUG_FEATURES":"{\"skipTokenVerification\":true,\"enableCors\":true}","FIREBASE_EMULATOR_HUB":"127.0.0.1:4400","CLOUD_EVENTARC_EMULATOR_HOST":"http://127.0.0.1:9299","CLOUD_TASKS_EMULATOR_HOST":"127.0.0.1:9499","FIREBASE_CONFIG":"{\"storageBucket\":\"studio-2799607830-e7b65.firebasestorage.app\",\"projectId\":\"studio-2799607830-e7b65\"}","ADMIN_PORT":"8082"} in /home/user/studio/functions
+[debug] [2025-10-08T17:45:51.966Z] Running command with virtualenv: command=., args=["\"/home/user/studio/functions/venv/bin/activate\"","&&","python3.11","\"/home/user/studio/functions/venv/lib/python3.11/site-packages/firebase_functions/private/serving.py\""]
+[error] 127.0.0.1 - - [08/Oct/2025 17:45:52] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2025-10-08T17:45:52.498Z] Got response from /__/functions.yaml endpoints:
+  runbacktest:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: runbacktest
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [08/Oct/2025 17:45:52] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] ✔  functions: Loaded functions definitions from source: runbacktest. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: runbacktest."}}
+[info]  * Serving Flask app 'serving'
+ * Debug mode: off
+
+[error] WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:8082
+Press CTRL+C to quit
+
+[error] 127.0.0.1 - - [08/Oct/2025 17:45:55] "GET /__/functions.yaml HTTP/1.1" 200 -
+
+[debug] [2025-10-08T17:45:55.290Z] Got response from /__/functions.yaml endpoints:
+  runbacktest:
+    availableMemoryMb: null
+    concurrency: null
+    entryPoint: runbacktest
+    httpsTrigger: {}
+    ingressSettings: null
+    labels: {}
+    maxInstances: null
+    minInstances: null
+    platform: gcfv2
+    secretEnvironmentVariables: []
+    serviceAccountEmail: null
+    timeoutSeconds: null
+params: []
+requiredAPIs: []
+specVersion: v1alpha1
+
+[error] 127.0.0.1 - - [08/Oct/2025 17:45:55] "GET /__/quitquitquit HTTP/1.1" 200 -
+
+[info] ✔  functions: Loaded functions definitions from source: runbacktest. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: runbacktest."}}

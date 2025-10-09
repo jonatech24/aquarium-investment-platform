@@ -3,3 +3,4 @@ firebase-admin
 werkzeug
 pandas
 yfinance
+backtesting

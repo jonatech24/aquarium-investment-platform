@@ -57,7 +57,7 @@ import { strategies } from '@/lib/strategies';
 
 
 // --- CONFIGURATION ---
-const BACKEND_URL = 'https://aquarium-investment-platform-studio-2799607830-e7b65.us-east4.hosted.app/';
+const BACKEND_URL = 'https://aquarium-investment-platform-studio-2799607830-e7b65.us-east4.hosted.app/runbacktest';
 
 
 const strategyParamsConfig: Record<
