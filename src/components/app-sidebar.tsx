@@ -99,7 +99,7 @@ export function AppSidebar() {
         <SidebarMenu>
           {menuItems.map(item => (
             <SidebarMenuItem key={item.label}>
-              <Link href={item.href} legacyBehavior passHref>
+              <Link href={item.href}>
                 <SidebarMenuButton isActive={pathname === item.href}>
                   <item.icon />
                   <span className='group-data-[collapsible=icon]:hidden'>{item.label}</span>

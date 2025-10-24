@@ -8,16 +8,17 @@ import sys
 import json
 from datetime import datetime
 import re
+import time
+from flask import Response, stream_with_context
 
 from backtest_engine import run_backtest
 
-# Initialize Firebase (if not already done)
+# --- Initialization ---
 try:
     initialize_app()
 except ValueError:
     pass
 
-# Define CORS options to allow requests from your frontend
 cors_options = options.CorsOptions(
     cors_origins=[
         "http://localhost:3000",
@@ -27,99 +28,101 @@ cors_options = options.CorsOptions(
         "https://aquarium-investment-platform-studio-2799607830-e7b65.us-east4.hosted.app",
         "https://9000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev",
     ],
-    cors_methods=["post"],
+    cors_methods=["POST"],
 )
 
+# --- Helper Functions ---
 def load_strategy_module(strategy_id):
-    """Dynamically loads a strategy module from the 'strategies' directory."""
     if not re.match(r'^[a-zA-Z0-9_]+$', strategy_id):
         raise ValueError(f"Invalid characters in strategy ID: {strategy_id}")
-
     module_name = f"strategies.{strategy_id}"
     file_path = f"./strategies/{strategy_id}.py"
-
     if module_name in sys.modules:
-        # If module is already loaded, reload it to pick up any changes
         importlib.reload(sys.modules[module_name])
-        return sys.modules[module_name]
-
     spec = importlib.util.spec_from_file_location(module_name, file_path)
     if spec is None:
         raise ImportError(f"Could not load spec for module {module_name} at {file_path}")
-    
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
     spec.loader.exec_module(module)
-    
     return module
 
-@https_fn.on_request(cors=cors_options)
-def runbacktest(req: https_fn.Request) -> https_fn.Response:
-    """An HTTPS Cloud Function to run a trading backtest."""
-    if req.method != 'POST':
-        return https_fn.Response("Only POST requests are accepted.", status=405)
+def _run_and_stream(req_body):
+    """Generator function to stream backtest progress."""
+    
+    # 1. Validate Parameters
+    yield json.dumps({"step": 0, "status": "in-progress", "name": "Validating Parameters"})
+    time.sleep(0.5) # Simulate work
 
+    strategy_id = req_body.get('strategy')
+    data_source = req_body.get('dataSource', 'yahoo')
+    ticker = req_body.get('ticker')
+    start_date = req_body.get('startDate')
+    end_date = req_body.get('endDate')
+    timeframe = req_body.get('timeframe')
+    
     try:
-        # The frontend now sends a JSON body, so we use req.get_json()
-        req_body = req.get_json()
+        if not all([strategy_id, data_source, ticker, start_date, end_date, timeframe]):
+            raise ValueError("One or more required parameters are missing.")
         
-        # General parameters
-        strategy_id = req_body.get('strategy')
-        if not strategy_id:
-            raise ValueError("Strategy ID is missing from the request.")
-
-        initial_capital = float(req_body.get('cash', 100000))
-        
-        # Parameters are now a direct dictionary in the JSON body
-        strategy_params = req_body.get('params', {})
-
-        # Data source parameters
-        data_source = req_body.get('dataSource', 'yahoo')
-        timeframe = req_body.get('timeframe')
-        ticker = req_body.get('ticker')
-        start_date = req_body.get('startDate')
-        end_date = req_body.get('endDate')
-        
-        data = None
-
-        if data_source == 'yahoo':
-            if not all([ticker, start_date, end_date, timeframe]):
-                raise ValueError("Ticker, Start Date, End Date, and Timeframe are required for Yahoo Finance.")
-            data = yf.download(ticker, start=start_date, end=end_date, interval=timeframe)
-        
-        # NOTE: Add elif blocks for 'alpaca', 'polygon', etc. here when you implement them
-        
-        else:
-            raise ValueError(f"Unsupported data source: {data_source}")
-            
-        if data is None or data.empty:
-            raise ValueError("Could not load market data. Please check ticker and date range.")
-
-        # --- Run the Backtest ---
         strategy_module = load_strategy_module(strategy_id)
+        initial_capital = float(req_body.get('cash', 100000))
+
+        yield json.dumps({"step": 0, "status": "success", "name": "Parameters Validated"})
+
+        # 2. Connect and Fetch Data
+        yield json.dumps({"step": 1, "status": "in-progress", "name": f"Fetching {ticker} Data..."})
+        time.sleep(1) # Simulate connection
+
+        data = yf.download(ticker, start=start_date, end=end_date, interval=timeframe)
+        if data.empty:
+            raise ValueError(f"No data returned for ticker '{ticker}'. Check ticker and date range.")
             
-        results = run_backtest(
-            data=data,
-            strategy_module=strategy_module,
-            initial_capital=initial_capital,
-            params=strategy_params
-        )
+        yield json.dumps({"step": 1, "status": "success", "name": "Market Data Fetched"})
 
-        # The 'results' object from the backtesting library is a pandas Series/Object.
-        # It MUST be converted to a JSON string before sending.
-        # orient='split' is a good format for pandas DataFrames/Series.
-        results_json = results.to_json(orient='split', date_format='iso')
+        # 3. Run Backtest/Optimization
+        mode = req_body.get('mode', 'single')
+        run_name = "Running Backtest" if mode == 'single' else "Running Optimization"
+        yield json.dumps({"step": 2, "status": "in-progress", "name": run_name})
 
-        # We return the JSON string directly. The client will parse it.
-        return https_fn.Response(results_json, status=200, mimetype="application/json")
+        # --- This is where the main computation happens ---
+        if mode == 'single':
+            params = req_body.get('params', {})
+            results = run_backtest(data, strategy_module, initial_capital, params)
+        else: # Optimization
+            # Note: This is a placeholder for the actual optimization logic
+            # The real implementation would go here.
+            # For now, we'll just run a single backtest as a demo.
+            time.sleep(5) # Simulate a longer optimization run
+            params = req_body.get('params', {}) # Using single params for demo
+            results = run_backtest(data, strategy_module, initial_capital, params)
+
+
+        yield json.dumps({"step": 2, "status": "success", "name": "Calculation Complete"})
+        
+        # 4. Finalizing and Presenting Results
+        yield json.dumps({"step": 3, "status": "in-progress", "name": "Presenting Results"})
+        time.sleep(0.5)
+
+        # Send the final, complete results payload
+        yield json.dumps({"step": 3, "status": "success", "name": "Done", "results": results})
 
     except Exception as e:
         import traceback
-        error_message = f"An error occurred in the backend: {e}"
+        error_message = f"An error occurred: {e}"
         print(error_message)
         print(traceback.format_exc())
-        return https_fn.Response(
-            json.dumps({"error": error_message}),
-            status=400, # Use 400 for client-side errors, 500 for internal server errors
-            mimetype="application/json"
-        )
+        yield json.dumps({"status": "error", "message": error_message})
+
+
+@https_fn.on_request(cors=cors_options)
+def runbacktest(req: https_fn.Request) -> Response:
+    """An HTTPS Cloud Function that streams the backtest process."""
+    if req.method != 'POST':
+        return Response("Only POST requests are accepted.", status=405)
+
+    req_body = req.get_json()
+    
+    # Use Flask's Response with stream_with_context to handle the generator
+    return Response(stream_with_context(_run_and_stream(req_body)),
+                    mimetype='application/x-ndjson')

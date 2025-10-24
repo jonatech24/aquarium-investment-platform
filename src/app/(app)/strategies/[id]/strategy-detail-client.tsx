@@ -64,24 +64,23 @@ export default function StrategyDetailClient({ strategyId, initialCode }: { stra
 
   return (
     <div className="grid flex-1 gap-4 md:gap-8">
-       <div className="flex items-center gap-4">
-        <Link href="/strategies">
-          <Button variant="outline" size="icon" className="h-7 w-7">
-            <ArrowLeft className="h-4 w-4" />
-            <span className="sr-only">Back</span>
-          </Button>
-        </Link>
-        <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 capitalize">
-          {strategyId.replace(/([A-Z])/g, ' $1')} Strategy
-        </h1>
-         <div className="ml-auto flex items-center gap-2">
-            <Button onClick={handleSave} disabled={isLoading}>
-                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-                Save
-            </Button>
-        </div>
-      </div>
-
+      <div className="flex items-center gap-4">
+       <Link href="/strategies">
+         <Button variant="outline" size="icon" className="h-7 w-7">
+           <ArrowLeft className="h-4 w-4" />
+           <span className="sr-only">Back</span>
+         </Button>
+       </Link>
+       <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0 capitalize">
+         {strategyId.replace(/([A-Z])/g, ' $1')} Strategy
+       </h1>
+        <div className="ml-auto flex items-center gap-2">
+           <Button onClick={handleSave} disabled={isLoading}>
+               {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+               Save
+           </Button>
+       </div>
+     </div>
       <Card>
         <CardHeader>
           <CardTitle>Backend Status</CardTitle>
@@ -90,7 +89,6 @@ export default function StrategyDetailClient({ strategyId, initialCode }: { stra
           <p>{backendMessage}</p>
         </CardContent>
       </Card>
-      
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
             <div>

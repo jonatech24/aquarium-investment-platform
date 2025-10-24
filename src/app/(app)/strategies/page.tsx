@@ -45,7 +45,6 @@ export default function StrategiesPage() {
           </Button>
         </Link>
       </div>
-
       <Card>
         <CardHeader>
           <CardTitle>My Strategies</CardTitle>
