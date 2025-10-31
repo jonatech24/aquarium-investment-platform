@@ -8,30 +8,39 @@ import {
   CartesianGrid,
   Bar,
   Line,
-  Cell,
+  ReferenceDot,
+  ResponsiveContainer,
 } from 'recharts';
 import {
   ChartContainer,
   ChartTooltipContent,
   ChartConfig,
 } from '@/components/ui/chart';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
-const ohlcData = [
-  { date: '2024-07-01T09:30:00', open: 150.75, high: 152.3, low: 150.1, close: 151.9 },
-  { date: '2024-07-01T09:35:00', open: 151.9, high: 152.1, low: 150.5, close: 150.8 },
-  { date: '2024-07-01T09:40:00', open: 150.8, high: 151.5, low: 150.2, close: 151.4 },
-  { date: '2024-07-01T09:45:00', open: 151.4, high: 153.0, low: 151.2, close: 152.8 },
-  { date: '2024-07-01T09:50:00', open: 152.8, high: 153.2, low: 152.5, close: 152.9 },
-  { date: '2024-07-01T09:55:00', open: 152.9, high: 153.0, low: 151.8, close: 152.0 },
-  { date: '2024-07-01T10:00:00', open: 152.0, high: 152.5, low: 151.7, close: 152.3 },
-  { date: '2024-07-01T10:05:00', open: 152.3, high: 152.4, low: 150.9, close: 151.1 },
-  { date: '2024-07-01T10:10:00', open: 151.1, high: 151.8, low: 150.5, close: 151.6 },
-  { date: '2024-07-01T10:15:00', open: 151.6, high: 152.2, low: 151.5, close: 152.0 },
-  { date: '2024-07-01T10:20:00', open: 152.0, high: 152.5, low: 151.9, close: 152.1 },
-  { date: '2024-07-01T10:25:00', open: 152.1, high: 152.3, low: 151.5, close: 151.7 },
-  { date: '2024-07-01T10:30:00', open: 151.7, high: 152.0, low: 150.8, close: 151.0 },
-];
+// 1. Define the data types
+export interface OHLCData {
+  Date: string; // ISO 8601 string
+  Open: number;
+  High: number;
+  Low: number;
+  Close: number;
+  Volume?: number;
+}
+
+export interface TradeData {
+  date: string; // ISO 8601 string
+  direction: 'BUY' | 'SELL';
+  price: number;
+  shares: number;
+}
+
+// 2. Define the component's props
+interface CandlestickChartProps {
+  ohlcData: OHLCData[];
+  tradeData: TradeData[];
+  height?: number;
+}
 
 const chartConfig = {
   price: {
@@ -45,11 +54,26 @@ const Wick = (props: any) => {
   return <rect x={x + width / 2 - 0.5} y={y} width={1} height={height} fill="currentColor" />;
 };
 
-export function CandlestickChart() {
+export function CandlestickChart({ ohlcData, tradeData, height = 400 }: CandlestickChartProps) {
+
+  // 3. Merge trades with OHLC data for easier rendering
+  const combinedData = ohlcData.map(d => {
+    const tradeOnThisDate = tradeData.find(t => format(parseISO(t.date), 'yyyy-MM-dd') === format(parseISO(d.Date), 'yyyy-MM-dd'));
+    return {
+      ...d,
+      trade: tradeOnThisDate,
+    };
+  });
+
+  const yDomain = [
+    'auto',
+    'auto'
+  ];
+
   return (
-    <ChartContainer config={chartConfig} className="h-[400px] w-full">
+    <ResponsiveContainer width="100%" height={height}>
       <ComposedChart
-        data={ohlcData}
+        data={combinedData}
         margin={{
           top: 20,
           right: 20,
@@ -59,16 +83,16 @@ export function CandlestickChart() {
       >
         <CartesianGrid vertical={false} />
         <XAxis
-          dataKey="date"
-          tickFormatter={(tick) => format(new Date(tick), 'HH:mm')}
+          dataKey="Date"
+          tickFormatter={(tick) => format(parseISO(tick), 'MM/dd/yy')}
           tickLine={false}
           axisLine={false}
           tickMargin={8}
         />
         <YAxis
           orientation="right"
-          domain={['dataMin - 5', 'dataMax + 5']}
-          tickFormatter={(tick) => `$${tick}`}
+          domain={yDomain}
+          tickFormatter={(tick) => typeof tick === 'number' ? `$${tick.toFixed(2)}`: ''}
           tickLine={false}
           axisLine={false}
           tickMargin={8}
@@ -76,16 +100,22 @@ export function CandlestickChart() {
         <Tooltip
           content={
             <ChartTooltipContent
-              labelFormatter={(label) => format(new Date(label), 'PPpp')}
+              labelFormatter={(label) => format(parseISO(label), 'PPpp')}
               formatter={(value, name, props) => {
                 const { payload } = props;
                 if (payload) {
-                   return (
-                    <div className="flex flex-col text-xs">
-                        <span>Open: ${payload.open.toFixed(2)}</span>
-                        <span>High: ${payload.high.toFixed(2)}</span>
-                        <span>Low: ${payload.low.toFixed(2)}</span>
-                        <span>Close: ${payload.close.toFixed(2)}</span>
+                  return (
+                    <div className="flex flex-col text-xs space-y-1 p-1">
+                      <span className="font-bold">{format(parseISO(payload.Date), 'MMM d, yyyy')}</span>
+                      <span>Open: ${payload.Open.toFixed(2)}</span>
+                      <span>High: ${payload.High.toFixed(2)}</span>
+                      <span>Low: ${payload.Low.toFixed(2)}</span>
+                      <span>Close: ${payload.Close.toFixed(2)}</span>
+                      {payload.trade && (
+                         <div className={`mt-2 pt-1 border-t border-gray-300 font-bold ${payload.trade.direction === 'BUY' ? 'text-green-500' : 'text-red-500'}`}>
+                            {payload.trade.direction} @ ${payload.trade.price.toFixed(2)}
+                         </div>
+                      )}
                     </div>
                   );
                 }
@@ -94,32 +124,49 @@ export function CandlestickChart() {
             />
           }
         />
-        
-        {/* Wicks (high-low line) */}
-        <Bar dataKey="high" shape={<Wick />} isAnimationActive={false}>
-          {ohlcData.map((entry, index) => (
-            <Cell
-              key={`cell-wick-${index}`}
-              fill={entry.close >= entry.open ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'}
-              stroke={entry.close >= entry.open ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'}
-            />
-          ))}
-        </Bar>
 
+        {/* Wicks (high-low line) */}
+        <Bar dataKey="High" stackId="ohlc" shape={<Wick />} isAnimationActive={false} barSize={1} />
+        
         {/* Body (open-close box) */}
-        <Bar
-          dataKey={(d) => [d.open, d.close]}
-          isAnimationActive={false}
-        >
-          {ohlcData.map((entry, index) => (
+        <Bar dataKey={(d: OHLCData) => [d.Open, d.Close]} stackId="ohlc" isAnimationActive={false}>
+          {combinedData.map((entry, index) => (
             <Cell
               key={`cell-body-${index}`}
-              fill={entry.close >= entry.open ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'}
-              stroke={entry.close >= entry.open ? 'hsl(var(--chart-2))' : 'hsl(var(--destructive))'}
+              fill={entry.Close >= entry.Open ? '#22c55e' : '#ef4444'}
+              stroke={entry.Close >= entry.Open ? '#22c55e' : '#ef4444'}
             />
           ))}
         </Bar>
+        
+        {/* Render trade markers */}
+        {combinedData.map((entry, index) => {
+            if (entry.trade) {
+                return (
+                    <ReferenceDot
+                        key={`trade-${index}`}
+                        x={entry.Date}
+                        y={entry.trade.price * 1.02} // Position slightly above the price
+                        r={8}
+                        fill={entry.trade.direction === 'BUY' ? '#84cc16' : '#ef4444'}
+                        stroke="#fff"
+                        strokeWidth={2}
+                    >
+                        <svg x="-5" y="-5" width="10" height="10" viewBox="0 0 10 10">
+                            {entry.trade.direction === 'BUY' ? (
+                                <polygon points="5,0 10,10 0,10" fill="#22c55e" /> // Up arrow
+                            ) : (
+                                <polygon points="0,0 10,0 5,10" fill="#ef4444" /> // Down arrow
+                            )}
+                        </svg>
+                    </ReferenceDot>
+                )
+            }
+            return null;
+        })}
+
       </ComposedChart>
-    </ChartContainer>
+    </ResponsiveContainer>
   );
 }
+

@@ -95,6 +95,11 @@ def _run_and_stream(req_body):
         # 4. Finalizing and Presenting Results
         yield json.dumps({"step": 3, "status": "in-progress", "name": "Presenting Results"}) + '\n'
         time.sleep(0.5)
+        
+        # Prepare OHLC data and add it to the results
+        data.reset_index(inplace=True)
+        data['Date'] = data['Date'].dt.strftime('%Y-%m-%dT%H:%M:%S')
+        results['ohlc'] = data.to_dict(orient='records')
 
         # Send the final, complete results payload
         yield json.dumps({"step": 3, "status": "success", "name": "Done", "results": results}) + '\n'
