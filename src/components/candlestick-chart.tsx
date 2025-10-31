@@ -10,6 +10,7 @@ import {
   Line,
   ReferenceDot,
   ResponsiveContainer,
+  Cell, // Added the missing import
 } from 'recharts';
 import {
   ChartContainer,
@@ -169,4 +170,3 @@ export function CandlestickChart({ ohlcData, tradeData, height = 400 }: Candlest
     </ResponsiveContainer>
   );
 }
-
