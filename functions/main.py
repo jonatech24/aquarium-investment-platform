@@ -1,3 +1,4 @@
+
 import functions_framework
 from firebase_admin import initialize_app
 from firebase_functions import options, https_fn
@@ -20,15 +21,8 @@ except ValueError:
     pass
 
 cors_options = options.CorsOptions(
-    cors_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:8081",
-        "https://*.web.app",
-        "https://*.firebaseapp.com",
-        "https://aquarium-investment-platform-studio-2799607830-e7b65.us-east4.hosted.app",
-        "https://9000-firebase-studio-1759333957868.cluster-f73ibkkuije66wssuontdtbx6q.cloudworkstations.dev",
-    ],
-    cors_methods=["POST"],
+    cors_origins=["*"],
+    cors_methods=["POST", "OPTIONS"],
 )
 
 # --- Helper Functions ---
@@ -51,7 +45,7 @@ def _run_and_stream(req_body):
     """Generator function to stream backtest progress."""
     
     # 1. Validate Parameters
-    yield json.dumps({"step": 0, "status": "in-progress", "name": "Validating Parameters"})
+    yield json.dumps({"step": 0, "status": "in-progress", "name": "Validating Parameters"}) + '\n'
     time.sleep(0.5) # Simulate work
 
     strategy_id = req_body.get('strategy')
@@ -68,56 +62,64 @@ def _run_and_stream(req_body):
         strategy_module = load_strategy_module(strategy_id)
         initial_capital = float(req_body.get('cash', 100000))
 
-        yield json.dumps({"step": 0, "status": "success", "name": "Parameters Validated"})
+        yield json.dumps({"step": 0, "status": "success", "name": "Parameters Validated"}) + '\n'
 
         # 2. Connect and Fetch Data
-        yield json.dumps({"step": 1, "status": "in-progress", "name": f"Fetching {ticker} Data..."})
-        time.sleep(1) # Simulate connection
-
+        yield json.dumps({"step": 1, "status": "in-progress", "name": f"Connecting to {data_source.capitalize()} for {ticker}..."}) + '\n'
+        time.sleep(0.5) # Simulate connection
+        
+        yield json.dumps({"step": 1, "status": "in-progress", "name": f"Downloading {ticker} data..."}) + '\n'
         data = yf.download(ticker, start=start_date, end=end_date, interval=timeframe)
         if data.empty:
             raise ValueError(f"No data returned for ticker '{ticker}'. Check ticker and date range.")
             
-        yield json.dumps({"step": 1, "status": "success", "name": "Market Data Fetched"})
+        yield json.dumps({"step": 1, "status": "success", "name": "Market Data Fetched"}) + '\n'
 
         # 3. Run Backtest/Optimization
         mode = req_body.get('mode', 'single')
         run_name = "Running Backtest" if mode == 'single' else "Running Optimization"
-        yield json.dumps({"step": 2, "status": "in-progress", "name": run_name})
+        yield json.dumps({"step": 2, "status": "in-progress", "name": run_name}) + '\n'
 
         # --- This is where the main computation happens ---
         if mode == 'single':
             params = req_body.get('params', {})
             results = run_backtest(data, strategy_module, initial_capital, params)
         else: # Optimization
-            # Note: This is a placeholder for the actual optimization logic
-            # The real implementation would go here.
-            # For now, we'll just run a single backtest as a demo.
             time.sleep(5) # Simulate a longer optimization run
-            params = req_body.get('params', {}) # Using single params for demo
+            params = req_body.get('params', {}) 
             results = run_backtest(data, strategy_module, initial_capital, params)
 
 
-        yield json.dumps({"step": 2, "status": "success", "name": "Calculation Complete"})
+        yield json.dumps({"step": 2, "status": "success", "name": "Calculation Complete"}) + '\n'
         
         # 4. Finalizing and Presenting Results
-        yield json.dumps({"step": 3, "status": "in-progress", "name": "Presenting Results"})
+        yield json.dumps({"step": 3, "status": "in-progress", "name": "Presenting Results"}) + '\n'
         time.sleep(0.5)
 
         # Send the final, complete results payload
-        yield json.dumps({"step": 3, "status": "success", "name": "Done", "results": results})
+        yield json.dumps({"step": 3, "status": "success", "name": "Done", "results": results}) + '\n'
 
     except Exception as e:
         import traceback
         error_message = f"An error occurred: {e}"
         print(error_message)
         print(traceback.format_exc())
-        yield json.dumps({"status": "error", "message": error_message})
+        yield json.dumps({"status": "error", "message": error_message}) + '\n'
 
 
 @https_fn.on_request(cors=cors_options)
 def runbacktest(req: https_fn.Request) -> Response:
     """An HTTPS Cloud Function that streams the backtest process."""
+    if req.method == 'OPTIONS':
+        # Send response to preflight request.
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Max-Age': '3600',
+        }
+        return Response(status=204, headers=headers)
+
     if req.method != 'POST':
         return Response("Only POST requests are accepted.", status=405)
 
