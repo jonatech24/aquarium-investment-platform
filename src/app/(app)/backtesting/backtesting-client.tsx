@@ -56,7 +56,8 @@ import { strategies } from '@/lib/strategies';
 import ProgressIndicator, { ProgressStep } from '@/components/progress-indicator';
 import TradingViewWidget from '@/components/tradingview-widget';
 // --- CONFIGURATION ---
-const BACKEND_URL = 'https://aquarium-investment-platform-studio-2799607830-e7b65.us-east4.hosted.app/runbacktest';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://runbacktest-pppxu6mrya-uc.a.run.app';
+
 const strategyParamsConfig: Record<
 string,
   { name: string; defaultValue: number; min?: number; max?: number; step?: number; description: string }[]

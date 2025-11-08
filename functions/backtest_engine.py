@@ -10,28 +10,34 @@ def run_backtest(data: pd.DataFrame, strategy_module, initial_capital: float, pa
 
     StrategyClass = strategy_module.TradingStrategy
 
-    # The library expects the data, the strategy CLASS, and keyword arguments for cash etc.
-    bt = Backtest(data, StrategyClass, cash=initial_capital, commission=.002)
+    # THE FIX - Part 1: Add `finalize_trades=True` to prevent open trades at the end and fix warnings.
+    bt = Backtest(data, StrategyClass, cash=initial_capital, commission=.002, trade_on_close=True, finalize_trades=True)
 
-    # The `run` method is where strategy-specific parameters are passed.
     stats = bt.run(**params)
 
-    # The output `stats` is a pandas Series. We will convert it and the underlying
-    # trades and equity curve into a JSON-serializable dictionary.
+    # THE FIX - Part 2: Correctly process the results object.
+    # The `stats` Series contains scalar values for the summary, but also complex objects
+    # like `_trades` and `_equity_curve` (DataFrames). We must handle them separately.
     
-    summary_dict = stats.to_dict()
-    
-    # Clean up non-serializable types from the summary
-    for key, value in summary_dict.items():
+    # 1. Create a clean summary dictionary with only scalar values.
+    summary_dict = {}
+    for key, value in stats.items():
+        # Filter out the complex objects, which are handled next.
+        if key.startswith('_'):
+            continue
+        
         if isinstance(value, (pd.Timestamp, pd.Timedelta)):
             summary_dict[key] = str(value)
         elif pd.isna(value):
             summary_dict[key] = None
+        else:
+            summary_dict[key] = value
 
+    # 2. Build the final results object, correctly processing the DataFrames.
     results = {
         "summary": summary_dict,
-        "trades": stats._trades.to_dict(orient='records'),
-        "equity_curve": {d.isoformat(): v for d, v in stats._equity_curve['Equity'].items()}
+        "trades": stats['_trades'].to_dict(orient='records'),
+        "equity_curve": {d.isoformat(): v for d, v in stats['_equity_curve']['Equity'].items()}
     }
 
     return results

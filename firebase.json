@@ -10,7 +10,7 @@
         "firebase-debug.*.log",
         "*.local"
       ],
-      "runtime": "python311"
+      "runtime": "python313"
     }
   ],
   "hosting": {
@@ -20,5 +20,28 @@
       "**/.*",
       "**/node_modules/**"
     ]
+  },
+  "emulators": {
+    "functions": {
+      "host": "127.0.0.1"
+    },
+    "hosting": {
+      "host": "127.0.0.1"
+    },
+    "hub": {
+      "host": "127.0.0.1"
+    },
+    "ui": {
+      "host": "127.0.0.1"
+    },
+    "logging": {
+      "host": "127.0.0.1"
+    },
+    "eventarc": {
+        "host": "127.0.0.1"
+    },
+    "tasks": {
+        "host": "127.0.0.1"
+    }
   }
 }
